@@ -1,0 +1,28 @@
+{
+  "name": "@gilly/client",
+  "version": "0.0.0",
+  "description": "Portfolio site's frontend, written in React",
+  "author": "PGilbertSchmitt@gmail.com",
+  "license": "MIT",
+  "dependencies": {
+    "react": "^16.8.2",
+    "react-dom": "^16.8.2",
+    "react-redux": "^6.0.0",
+    "redux": "^4.0.1",
+    "redux-saga": "^1.0.1"
+  },
+  "devDependencies": {
+    "@types/react": "^16.8.3",
+    "@types/react-dom": "^16.8.2",
+    "@types/react-redux": "^7.0.1",
+    "source-map-loader": "^0.2.4",
+    "ts-loader": "^5.3.3",
+    "ts-node": "^8.0.2",
+    "tsconfig-paths-webpack-plugin": "^3.2.0",
+    "tslint": "^5.12.1",
+    "typescript": "^3.3.3",
+    "webpack": "^4.29.4",
+    "webpack-cli": "^3.2.3",
+    "webpack-fix-default-import-plugin": "^1.0.3"
+  }
+}

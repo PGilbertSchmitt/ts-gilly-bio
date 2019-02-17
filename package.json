@@ -1,0 +1,15 @@
+{
+  "name": "ts-gilly-bio",
+  "version": "0.0.0",
+  "description": "Revamped portfolio site written end-to-end in TypeScript",
+  "author": "PGilbertSchmitt@gmail.com",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "lerna": "^3.13.0",
+    "typescript": "^3.3.3"
+  }
+}
