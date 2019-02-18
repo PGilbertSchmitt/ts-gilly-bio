@@ -18,7 +18,8 @@
     "max-line-length": [
       true,
       150
-    ]
+    ],
+    "space-before-function-paren": false
   },
   "jsRules": {
     "no-unused-expression": true
