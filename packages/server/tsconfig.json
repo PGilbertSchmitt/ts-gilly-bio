@@ -7,13 +7,19 @@
     "experimentalDecorators": true,
     "target": "es6",
     "outDir": "./dist",
-    "baseUrl": "./src/"
+    "resolveJsonModule": true,
+    "baseUrl": "./src/",
+    "paths": {
+      "@root/*": [
+        "../*.json"
+      ]
+    }
   },
   "exclude": [
     "node_modules",
     "dist"
   ],
   "include": [
-    "./src/**/*.ts"
+    "./src/**/*.ts",
   ]
 }
