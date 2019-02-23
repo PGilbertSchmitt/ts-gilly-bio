@@ -1,17 +1,20 @@
 import { Model } from 'mongoose';
 import { Injectable, Inject } from '@nestjs/common';
 
-import { IProject } from 'interfaces/project';
 import { projectsToken } from './projects.provider';
-import { IProjectModel } from './projects.schema';
+import { IProjectDoc } from './projects.schema';
 
 @Injectable()
 export class ProjectsService {
   constructor(
-    @Inject(projectsToken) private readonly projectModel: Model<IProjectModel>,
+    @Inject(projectsToken) private readonly projectModel: Model<IProjectDoc>,
   ) { }
 
-  async findAll(): Promise<IProject[]> {
+  async findAll(): Promise<IProjectDoc[]> {
     return await this.projectModel.find().exec();
+  }
+
+  async find(slug: string): Promise<IProjectDoc> {
+    return await this.projectModel.findOne({ slug });
   }
 }

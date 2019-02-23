@@ -1,8 +1,8 @@
-import { Document, Schema } from 'mongoose';
+import { Schema, Document } from 'mongoose';
 
-import { IProject } from 'interfaces/project';
+import { IProject } from '@src/interfaces/project';
 
-export interface IProjectModel extends IProject, Document {
+export interface IProjectDoc extends IProject, Document {
   created_at: Date;
   updated_at: Date;
 }
@@ -25,11 +25,11 @@ export const ProjectSchema: Schema = new Schema({
 });
 
 // Dates should only be set by this hook
-ProjectSchema.pre<IProjectModel>('save', function (next) {
+ProjectSchema.pre<IProjectDoc>('save', function (this, next) {
   if (!this.created_at) {
     this.created_at = new Date();
   }
-
   this.updated_at = new Date();
+
   next();
 });
