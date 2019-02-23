@@ -1,6 +1,7 @@
 node_modules/
 .code-workspace
 yarn-error.log
+lerna-debug.log
 
 db.config.json
 /packages/**/dist/
