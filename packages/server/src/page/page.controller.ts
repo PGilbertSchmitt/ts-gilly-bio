@@ -1,5 +1,5 @@
 import { Controller, Get } from '@nestjs/common';
-import { PageService } from 'page/page.service';
+import { PageService } from './page.service';
 
 @Controller()
 export class PageController {

@@ -8,10 +8,13 @@
     "target": "es6",
     "outDir": "./dist",
     "resolveJsonModule": true,
-    "baseUrl": "./src/",
+    "baseUrl": ".",
     "paths": {
       "@root/*": [
-        "../*.json"
+        "./*.json",
+      ],
+      "@src/*": [
+        "./src/*",
       ]
     }
   },
@@ -20,6 +23,7 @@
     "dist"
   ],
   "include": [
+    "./*.ts",
     "./src/**/*.ts",
   ]
 }

@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { PageController } from 'page/page.controller';
-import { PageService } from 'page/page.service';
+import { PageController } from './page.controller';
+import { PageService } from './page.service';
 
 @Module({
   controllers: [PageController],
