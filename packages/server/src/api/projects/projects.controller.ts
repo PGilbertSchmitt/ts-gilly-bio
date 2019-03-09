@@ -1,4 +1,5 @@
 import { Controller, Get, Param } from '@nestjs/common';
+import pick from 'lodash/pick';
 
 import { IProject } from '@src/interfaces/project';
 import { ProjectsService } from './projects.service';
@@ -9,11 +10,11 @@ export class ProjectsController {
 
   @Get()
   async getProjects(): Promise<IProject[]> {
-    return this.projectsService.findAll();
+    return await this.projectsService.findAll();
   }
 
   @Get(':slug')
   async getProject(@Param('slug') slug: string): Promise<IProject> {
-    return this.projectsService.find(slug);
+    return await this.projectsService.find(slug);
   }
 }
