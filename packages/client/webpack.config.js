@@ -21,6 +21,10 @@ module.exports = {
     ]
   },
   devtool: 'source-maps',
+  devServer: {
+    contentBase: path.join(__dirname, 'dist'),
+    port: 3001
+  },
   module: {
     rules: [
       {
@@ -32,6 +36,13 @@ module.exports = {
         test: /\.js$/,
         enforce: "pre",
         use: "source-map-loader"
+      }, {
+        test: /\.scss$/,
+        use: [
+          "style-loader",
+          "css-loader",
+          "scss-loader",
+        ]
       }
     ]
   },

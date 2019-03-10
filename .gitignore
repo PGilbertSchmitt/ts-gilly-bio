@@ -4,4 +4,5 @@ yarn-error.log
 lerna-debug.log
 
 db.config.json
-/packages/**/dist/
+packages/**/dist/*
+!packages/client/dist/index.html
