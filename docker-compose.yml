@@ -1,0 +1,19 @@
+version: '3'
+services:
+  mongo:
+    container_name: ts-gilly-mongo
+    build:
+      context: .
+      dockerfile: mongo.docker
+    ports:
+      - 27017:27017
+  web:
+    container_name: ts-gilly-server
+    depends_on:
+      - mongo
+    build:
+      context: .
+      dockerfile: server.docker
+    ports: 
+      - 80:80
+    

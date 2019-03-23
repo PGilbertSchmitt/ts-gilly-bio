@@ -34,6 +34,7 @@
     "build": "tsc -p tsconfig.json",
     "start": "ts-node -r tsconfig-paths/register src/main.ts",
     "start:dev": "nodemon",
-    "seed": "yarn run ts-node -r tsconfig-paths/register seed.ts"
+    "seed": "ts-node -r tsconfig-paths/register seed.ts",
+    "docker:start": "yarn seed && yarn start"
   }
 }

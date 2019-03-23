@@ -1,10 +1,13 @@
 import { NestFactory } from '@nestjs/core';
+import path from 'path';
 
 import { RootModule } from './root.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(RootModule);
-  await app.listen(3000);
+  app.useStaticAssets(path.resolve(__dirname + '/../public'));
+
+  await app.listen(80);
 }
 
 bootstrap();

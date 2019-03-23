@@ -7,13 +7,18 @@ import { projects } from './seeds/projects';
 (async () => {
   console.log('Connecting...');
 
-  await mongoose.connect(`${config.host}/${config.database}`, {
-    user: config.username,
-    pass: config.password,
+  try {
+    await mongoose.connect(`${config.host}/${config.database}`, {
+      // user: config.username,
+      // pass: config.password,
 
-    useNewUrlParser: true,
-    useCreateIndex: true,
-  });
+      useNewUrlParser: true,
+      useCreateIndex: true,
+    });
+  } catch (e) {
+    console.log(e);
+    process.exit(1);
+  }
 
   console.log('Connected.');
 
