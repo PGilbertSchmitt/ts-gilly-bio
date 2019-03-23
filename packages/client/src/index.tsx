@@ -1,9 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import Root from '@src/components/root';
+
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
-    <h1>Ready to react</h1>,
+    <Root />,
     document.getElementById('root'),
   );
 });
