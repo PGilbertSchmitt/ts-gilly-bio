@@ -23,11 +23,11 @@ RUN yarn run lerna bootstrap
 
 COPY . /home/bio/
 RUN cd packages/client && yarn build:once
-RUN cp packages/client/dist/bundle.js packages/server/public/bundle.js
+# RUN cp packages/client/dist/bundle.js packages/server/public/bundle.js
 
 # Run
 
-EXPOSE 80
+EXPOSE 3000
 
 WORKDIR /home/bio/packages/server
 CMD ["yarn", "docker:start"]
