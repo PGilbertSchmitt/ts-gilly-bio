@@ -5,6 +5,7 @@
   "author": "PGilbertSchmitt@gmail.com",
   "license": "MIT",
   "dependencies": {
+    "@material-ui/core": "^3.9.2",
     "react": "^16.8.2",
     "react-dom": "^16.8.2",
     "react-redux": "^6.0.0",
@@ -12,6 +13,7 @@
     "redux-saga": "^1.0.1"
   },
   "devDependencies": {
+    "@types/material-ui": "^0.21.6",
     "@types/react": "^16.8.3",
     "@types/react-dom": "^16.8.2",
     "@types/react-redux": "^7.0.1",
