@@ -1,24 +1,10 @@
 import { Controller, Get, Render, Param } from '@nestjs/common';
 
-/* I could not think of a cleaner way to get multiple endpoints to route to the same method */
-
 @Controller('/')
 export class StaticController {
-  @Get()
+  @Get(['', 'blog', 'projects'])
   @Render('index')
-  root() {
-    return {};
-  }
-
-  @Get('blog')
-  @Render('index')
-  blog() {
-    return {};
-  }
-
-  @Get('projects')
-  @Render('index')
-  projects() {
+  index() {
     return {};
   }
 
