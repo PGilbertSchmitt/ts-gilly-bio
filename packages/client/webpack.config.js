@@ -8,7 +8,6 @@ module.exports = {
   entry: "./src/index.tsx",
   output: {
     path: path.resolve('../server/dist'),
-    // path: path.join(__dirname, 'dist'),
     filename: "bundle.js"
   },
   resolve: {
@@ -22,10 +21,6 @@ module.exports = {
     ]
   },
   devtool: 'source-maps',
-  devServer: {
-    contentBase: path.join(__dirname, 'dist'),
-    port: 3001
-  },
   module: {
     rules: [
       {
@@ -38,11 +33,16 @@ module.exports = {
         enforce: "pre",
         use: "source-map-loader"
       }, {
-        test: /\.scss$/,
+        test: /\.css$/,
         use: [
           "style-loader",
-          "css-loader",
-          "scss-loader",
+          {
+            loader: "css-loader",
+            options: {
+              modules: true,
+              camelCase: true,
+            }
+          }
         ]
       }
     ]
@@ -51,6 +51,6 @@ module.exports = {
     fs: "empty"
   },
   plugins: [
-    new fixDefaultImportPlugin()
+    new fixDefaultImportPlugin(),
   ]
 };
