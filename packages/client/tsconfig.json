@@ -9,7 +9,22 @@
       ],
       "@src/*": [
         "./src/*",
-      ]
+      ],
+      "@comp/*": [
+        "./src/components/*",
+      ],
+      "@styles/*": [
+        "./src/styles/*",
+      ],
+      "@actions/*": [
+        "./src/actions/*",
+      ],
+      "@reducers/*": [
+        "./src/reducers/*",
+      ],
+      "@api/*": [
+        "./src/api/*",
+      ],
     }
   },
   "exclude": [
@@ -20,5 +35,5 @@
     "./*.ts",
     "./src/**/*.ts",
     "./src/**/*.tsx",
-  ]
+  ],
 }
