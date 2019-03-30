@@ -7,6 +7,10 @@ import { jssPreset, createGenerateClassName } from '@material-ui/core/styles';
 import Main from '@comp/core/main';
 import Header from '@comp/nav/header';
 
+// Shouldn't override anything in Material UI, since it only uses low-priority selectors, and Material UI only uses classes
+import normalize from '@styles/_normalize.scss';
+normalize; //tslint:disable-line
+
 const generateClassName = createGenerateClassName();
 const jss = create({
   ...jssPreset(),

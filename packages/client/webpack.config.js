@@ -15,7 +15,7 @@ module.exports = {
       path.resolve(__dirname, "src"),
       "node_modules"
     ],
-    extensions: [".js", ".ts", ".tsx", ".json"],
+    extensions: [".js", ".ts", ".tsx", ".json", ".scss"],
     plugins: [
       new tsConfigPathsPlugin()
     ]
