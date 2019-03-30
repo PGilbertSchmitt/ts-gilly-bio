@@ -4,10 +4,9 @@ import { Link } from 'react-router-dom';
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 
-import styles from '@styles/header.css';
+import styles from '@styles/header.scss';
 
 const Header: SFC = () => {
-  console.log(styles.gillythefish);
   return (
     <AppBar position='static' className={styles.header}>
       <Link to='/'>

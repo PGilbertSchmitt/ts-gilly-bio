@@ -33,7 +33,7 @@ module.exports = {
         enforce: "pre",
         use: "source-map-loader"
       }, {
-        test: /\.css$/,
+        test: /\.scss$/,
         use: [
           "style-loader",
           {
@@ -42,7 +42,8 @@ module.exports = {
               modules: true,
               camelCase: true,
             }
-          }
+          },
+          "sass-loader"
         ]
       }
     ]
