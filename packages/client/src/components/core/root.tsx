@@ -8,9 +8,9 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import Main from '@comp/core/main';
 import Header from '@comp/nav/header';
 
-// Shouldn't override anything in Material UI, since it only uses low-priority selectors, and Material UI only uses classes
-// import normalize from '@styles/_normalize.scss';
-// normalize; //tslint:disable-line
+// This just ensures the global body style is recognized by the compiler
+import { underlined } from '@styles/_layout.scss';
+underlined; //tslint:disable-line
 
 const generateClassName = createGenerateClassName();
 const jss = create({
