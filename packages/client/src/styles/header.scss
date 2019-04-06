@@ -7,6 +7,9 @@
   .toolbar {
     display: flex;
     justify-content: space-between;
+    width: 100%;
+    max-width: $main-width;
+    margin: 0 auto;
 
     .logo {
       color: $white;

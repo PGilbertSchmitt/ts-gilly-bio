@@ -1,0 +1,8 @@
+@import './variables';
+
+.page-base {
+  width: 100%;
+  max-width: $main-width;
+  margin: 0 auto;
+  background-color: black;
+}

@@ -1,36 +1,17 @@
 import React, { FunctionComponent as FC } from 'react';
 import { Route } from 'react-router-dom';
 
-const Home: FC = () => (
-  <div>
-    This is my home!
-  </div>
-);
-
-const Projects: FC = () => (
-  <div>
-    These are my projects!
-
-    <ul>
-      <li>Fake!</li>
-      <li>Made up!</li>
-      <li>Untrue!</li>
-    </ul>
-  </div>
-);
-
-const Blog: FC = () => (
-  <div>
-    This is my blog!
-  </div>
-);
+import PageBase from '@comp/core/page_base';
+import HomePage from '@comp/content/home_page';
+import BlogPage from '@comp/content/blog_page';
+import ProjectPage from '@comp/content/project_page';
 
 const Main: FC = () => (
-  <div>
-    <Route path='/' component={Home} exact />
-    <Route path='/projects' component={Projects} />
-    <Route path='/blog' component={Blog} />
-  </div>
+  <PageBase>
+    <Route path='/' component={HomePage} exact />
+    <Route path='/projects' component={ProjectPage} />
+    <Route path='/blog' component={BlogPage} />
+  </PageBase>
 );
 
 export default Main;
