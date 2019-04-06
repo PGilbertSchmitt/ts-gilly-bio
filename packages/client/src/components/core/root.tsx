@@ -1,4 +1,4 @@
-import React, { SFC } from 'react';
+import React, { FunctionComponent as FC } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import JssProvider from 'react-jss/lib/JssProvider';
 import { create } from 'jss';
@@ -18,7 +18,7 @@ const jss = create({
   insertionPoint: 'jss-insertion-point',
 });
 
-const Root: SFC = () => (
+const Root: FC = () => (
   <JssProvider jss={jss} generateClassName={generateClassName}>
     <CssBaseline>
       <Router>
