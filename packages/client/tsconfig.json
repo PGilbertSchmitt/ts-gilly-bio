@@ -25,6 +25,15 @@
       "@api/*": [
         "./src/api/*",
       ],
+      "@res/*": [
+        "./src/resources/*",
+      ],
+      "@util/*": [
+        "./src/util/*",
+      ],
+      "@sagas/*": [
+        "./src/sagas/*",
+      ],
     }
   },
   "exclude": [
