@@ -1,31 +1,35 @@
 import { Action } from 'redux';
-import clone from 'ramda/src/clone';
+import mergeRight from 'ramda/src/mergeRight';
 
 import { isAction } from '@util/action_types';
 import {
   receiveRepos,
+  receiveCommits,
 } from '@actions/github_actions';
 import { IRepo } from '@res/github_repo_response';
+import { ICommit } from '@res/github_commit_response';
 
 export type RepoState = IRepo[];
 
 export const githubRepoReducer = (state: RepoState = [], action: Action): RepoState => {
-  const newState = clone(state);
-
   if (isAction(action, receiveRepos)) {
     return action.payload;
   }
 
-  return newState;
+  return state;
 };
 
 export interface CommitState {
-  [reponame: string]: {
-    id: number;
-    thing: string;
-  };
+  [reponame: string]: ICommit;
 }
 
-export const githubCommitReducer = (state: CommitState, action: Action) => {
-  return {};
+export const githubCommitReducer = (state: CommitState = {}, action: Action): CommitState => {
+  if (isAction(action, receiveCommits)) {
+    const { payload: { repo, commits } } = action;
+    return mergeRight(state, {
+      [repo]: commits,
+    });
+  }
+
+  return state;
 };

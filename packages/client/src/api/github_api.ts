@@ -1,7 +1,18 @@
 import mergeRight from 'ramda/es/mergeRight';
 import axios, { AxiosRequestConfig as AxConfig, AxiosResponse } from 'axios';
 
-import { IRepoResponse, IRepo, filterResponse } from '@res/github_repo_response';
+import {
+  IRepoResponse,
+  IRepo,
+  pickResponse as filterRepos,
+} from '@res/github_repo_response';
+
+import {
+  ICommitResponse,
+  ICommit,
+  filterByAuthor,
+  pickResponse as filterCommits,
+} from '@res/github_commit_response';
 
 const baseConfig: AxConfig = {
   baseURL: 'https://api.github.com',
@@ -14,15 +25,19 @@ const repoConfig = mergeRight<AxConfig, AxConfig>(baseConfig, {
   },
   // This is such a good config option, I love it
   transformResponse: [
-    // Only need the 5 most recent repos
+    // Parse into JSON
     (data: string): IRepoResponse[] => {
-      const repos = JSON.parse(data) as IRepoResponse[];
+      return JSON.parse(data) as IRepoResponse[];
+    },
+
+    // Only need the 5 most recent repos
+    (repos: IRepoResponse[]): IRepoResponse[] => {
       return repos.slice(0, 5);
     },
 
-    // Filter out unnecessary data
-    (data: IRepoResponse[]): IRepo[] => {
-      const filteredRepos = data.map(filterResponse);
+    // Filter out unnecessary keys
+    (repos: IRepoResponse[]): IRepo[] => {
+      const filteredRepos = repos.map(filterRepos);
       return filteredRepos;
     },
   ],
@@ -42,21 +57,38 @@ export const getRepos = async () => {
 };
 
 const commitConfig = mergeRight<AxConfig, AxConfig>(baseConfig, {
+  // Thank you Axios
   transformResponse: [
-    (data: string) => {
-      const commits = JSON.parse(data);
-      console.log('Commits:', commits);
-      return commits;
-    },
+    // Parse into JSON
+    (data: string): ICommitResponse[] => (
+      JSON.parse(data) as ICommitResponse[]
+    ),
+
+    // Only get my own commits
+    (commits: ICommitResponse[]): ICommitResponse[] => (
+      filterByAuthor(commits)
+    ),
+
+    // Only need the 10 most recent commits
+    (commits: ICommitResponse[]): ICommitResponse[] => (
+      commits.slice(0, 10)
+    ),
+
+    // Filter out unnecessary keys
+    (commits: ICommitResponse[]): ICommit[] => (
+      commits.map(filterCommits)
+    ),
   ],
 });
 
+// repo param should be `<user>/<repo_name>`, which is returned as the 'full_name' value in the repo response
 export const getCommits = async (repo: string) => {
   try {
     const commits = await axios.get(
-      '/repos/PGilbertSchmitt/${repo}/commits',
+      `/repos/${repo}/commits`,
       commitConfig,
     );
+    return commits;
   } catch (e) {
     console.log('More bad stuff!');
     console.group(e);

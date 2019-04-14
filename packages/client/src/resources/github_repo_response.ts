@@ -1,4 +1,5 @@
 import pick from 'ramda/es/pick';
+
 import { stringLiteralArray } from '@util/other';
 
 export interface IRepoResponse {
@@ -97,5 +98,7 @@ export interface IRepoResponse {
 }
 
 const githubSubKeys = stringLiteralArray(['full_name', 'html_url', 'languages_url', 'pushed_at']);
-export const filterResponse = pick(githubSubKeys);
+
+export const pickResponse = pick(githubSubKeys);
+
 export type IRepo = Pick<IRepoResponse, typeof githubSubKeys[number]>;
