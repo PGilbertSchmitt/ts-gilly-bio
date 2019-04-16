@@ -3,6 +3,7 @@ import pick from 'lodash/pick';
 
 import { IProject } from '@src/interfaces/project';
 import { ProjectsService } from './projects.service';
+import { Error } from '@src/interfaces/error';
 
 @Controller('/api/projects')
 export class ProjectsController {
@@ -14,7 +15,7 @@ export class ProjectsController {
   }
 
   @Get(':slug')
-  async getProject(@Param('slug') slug: string): Promise<IProject> {
+  async getProject(@Param('slug') slug: string): Promise<IProject | Error> {
     return await this.projectsService.find(slug);
   }
 }

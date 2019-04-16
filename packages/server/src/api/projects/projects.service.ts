@@ -5,6 +5,7 @@ import pick from 'lodash/pick';
 import { IProject } from '@src/interfaces/project';
 import { projectsToken } from './projects.provider';
 import { IProjectDoc } from './projects.schema';
+import { Error } from '@src/interfaces/error';
 
 /* JSON filtering explanation:
  *
@@ -44,9 +45,14 @@ export class ProjectsService {
     'urls',
   ];
 
-  async find(slug: string): Promise<IProject> {
+  async find(slug: string): Promise<IProject | Error> {
     const projectDoc = await this.projectModel.findOne({ slug }).exec();
-    return this.filterByKeys(projectDoc, this.SLUG_KEYS);
+    if (!!projectDoc) {
+      return this.filterByKeys(projectDoc, this.SLUG_KEYS);
+    }
+    return ({
+      message: `Oy mate, didn't find project ${slug}`,
+    });
   }
 
   filterByKeys(doc: IProjectDoc, keys: string[]): IProject {
