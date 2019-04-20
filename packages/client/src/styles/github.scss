@@ -1,0 +1,18 @@
+.repo-header {
+  display: inline-block;
+  height: 30px;
+  margin: 0;
+  font-family: 'Fira Code', monospace;
+}
+
+.repo-list {
+  width: 100%;
+  height: calc(100% - 30px);
+  padding: 0;
+  background: lightgrey;
+  overflow: auto;
+
+  .repo-item {
+    background-color: violet;
+  }
+}
