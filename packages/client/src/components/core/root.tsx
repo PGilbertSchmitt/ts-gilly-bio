@@ -7,7 +7,6 @@ import { jssPreset, createGenerateClassName } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 import Main from '@comp/core/main';
-import DataInit from '@comp/core/data_init';
 import Header from '@comp/nav/header';
 import store from '@util/store';
 
@@ -25,12 +24,10 @@ const Root: FC = () => (
   <JssProvider jss={jss} generateClassName={generateClassName}>
     <CssBaseline>
       <Provider store={store}>
-        <DataInit>
-          <Router>
-            <Header />
-            <Main />
-          </Router>
-        </DataInit>
+        <Router>
+          <Header />
+          <Main />
+        </Router>
       </Provider>
     </CssBaseline>
   </JssProvider >

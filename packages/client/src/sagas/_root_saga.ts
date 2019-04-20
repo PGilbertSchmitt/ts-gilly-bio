@@ -2,11 +2,13 @@ import { SagaIterator } from 'redux-saga';
 import { all, call } from 'redux-saga/effects';
 
 import {
-  watchLoadGithubData,
+  watchFetchGithubRepos,
+  watchFetchGithubCommits,
 } from '@sagas/github_saga';
 
 export default function* rootSaga(): SagaIterator {
   yield all([
-    call(watchLoadGithubData),
+    call(watchFetchGithubRepos),
+    call(watchFetchGithubCommits),
   ]);
 }

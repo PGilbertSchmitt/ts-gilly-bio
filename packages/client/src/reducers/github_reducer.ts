@@ -20,7 +20,7 @@ export const githubRepoReducer = (state: RepoState = [], action: Action): RepoSt
 };
 
 export interface CommitState {
-  [reponame: string]: ICommit;
+  [reponame: string]: ICommit[];
 }
 
 export const githubCommitReducer = (state: CommitState = {}, action: Action): CommitState => {

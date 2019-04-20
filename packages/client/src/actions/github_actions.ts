@@ -1,8 +1,9 @@
 import { makeAction, makeEmptyAction } from '@util/action_types';
 import {
   RECEIVE_REPOS,
-  LOAD_GITHUB_DATA,
+  FETCH_GITHUB_REPOS,
   RECEIVE_COMMITS,
+  FETCH_GITHUB_COMMITS,
 } from '@util/constants';
 import { IRepo } from '@res/github_repo_response';
 import { ICommit } from '@res/github_commit_response';
@@ -24,4 +25,10 @@ export const receiveCommits = makeAction(RECEIVE_COMMITS)(
 
 // Saga Actions
 
-export const loadGithubData = makeEmptyAction(LOAD_GITHUB_DATA);
+export const fetchGithubRepos = makeEmptyAction(FETCH_GITHUB_REPOS);
+export const fetchGithubCommits = makeAction(FETCH_GITHUB_COMMITS)(
+  (repo: string) => ({
+    payload: { repo },
+  }),
+);
+export type GithubCommitAction = ReturnType<typeof fetchGithubCommits>;
