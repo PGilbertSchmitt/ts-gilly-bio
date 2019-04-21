@@ -39,7 +39,7 @@ const CommitList: FC<Props> = ({ loadCommits, commits, repo, open }) => {
   }
 
   return (
-    <List className={styles.repoList}>
+    <List className={styles.commitList}>
       {commits.map(commit => (
         <CommitItem commit={commit} key={commit.sha} />
       ))}

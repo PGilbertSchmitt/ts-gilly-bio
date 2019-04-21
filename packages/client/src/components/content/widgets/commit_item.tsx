@@ -12,7 +12,7 @@ interface OwnProps {
 type Props = OwnProps;
 
 const CommitItem: FC<Props> = ({ commit }) => (
-  <ListItem className={styles.repoItem}>
+  <ListItem className={styles.commitItem}>
     {commit.commit.message}
   </ListItem>
 );

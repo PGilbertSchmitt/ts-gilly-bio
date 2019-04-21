@@ -8,6 +8,8 @@ import { IRepo } from '@res/github_repo_response';
 import { RootState } from '@reducers/_root_reducer';
 import { connect } from 'react-redux';
 
+import styles from '@styles/github.scss';
+
 interface DispatchProps {
   loadRepos: () => void;
 }
@@ -36,7 +38,7 @@ const GithubView: FC<Props> = ({ loadRepos, repos }) => {
   }
 
   return (
-    <div style={{ width: '400px', height: '400px', backgroundColor: 'green' }}>
+    <div className={styles.githubView}>
       {
         repos.map((repo) => (
           <RepoItem
