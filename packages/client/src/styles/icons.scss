@@ -1,0 +1,14 @@
+i.icon {
+  display: inline-block;
+  margin-top: 4px;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+i.icon.commit-icon {
+  background-image: url('/assets/gh_commit_icon.svg');
+}
+
+i.icon.merge-icon {
+  background-image: url('/assets/gh_merge_icon.svg');
+}

@@ -34,6 +34,9 @@
       "@sagas/*": [
         "./src/sagas/*",
       ],
+      "@assets/*": [
+        "./src/components/assets/*",
+      ],
     }
   },
   "exclude": [
