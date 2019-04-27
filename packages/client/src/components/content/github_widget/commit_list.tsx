@@ -3,7 +3,7 @@ import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import List from '@material-ui/core/List';
 
-import CommitItem from '@comp/content/widgets/commit_item';
+import CommitItem from '@comp/content/github_widget/commit_item';
 import { fetchGithubCommits } from '@actions/github_actions';
 import { ICommit } from '@res/github_commit_response';
 import { RootState } from '@reducers/_root_reducer';

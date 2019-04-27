@@ -3,7 +3,7 @@ import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 
-import CommitList from '@comp/content/widgets/commit_list';
+import CommitList from '@comp/content/github_widget/commit_list';
 import { IRepo } from '@res/github_repo_response';
 
 import styles from '@styles/github.scss';
