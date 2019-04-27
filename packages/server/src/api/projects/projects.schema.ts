@@ -12,13 +12,14 @@ export const ProjectSchema: Schema = new Schema({
   title: { type: String, required: true, unique: true },
   slug: { type: String, required: true, unique: true },
   desc: { type: String, required: true },
-  stack: { type: String },
+  stack: [String],
   thumbnail_path: { type: String },
   header_image_path: { type: String },
   urls: [{
     name: { type: String, required: true },
     url: { type: String, required: true },
   }],
+  content: { type: String, required: true },
 
   created_at: { type: Date },
   updated_at: { type: Date },

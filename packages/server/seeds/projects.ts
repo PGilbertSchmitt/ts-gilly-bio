@@ -1,4 +1,5 @@
 import { IProject } from '../src/interfaces/project';
+import * as markdown from './project_markdown';
 
 export const projects: IProject[] = [
   {
@@ -7,7 +8,7 @@ export const projects: IProject[] = [
     header_image_path: 'g7mG1kGN',
     slug: 'gogol',
     thumbnail_path: 'MNQO9VSK',
-    stack: 'HTML/CSS, JavaScript, React/Redux',
+    stack: ['HTML', 'CSS', 'JavaScript', 'React', 'Redux'],
     urls: [
       {
         name: 'Github',
@@ -17,12 +18,13 @@ export const projects: IProject[] = [
         url: 'https://pgilbertschmitt.github.io/gogol/',
       },
     ],
+    content: markdown.gogol,
   },
   {
     title: 'VSCode Org Mode',
     desc: 'Brings emacs org mode extension to Visual Studio Code',
     slug: 'vscode-org-mode',
-    stack: 'TypeScript',
+    stack: ['TypeScript'],
     thumbnail_path: 'Uy0lyzDm',
     header_image_path: 'MNFGoNyB',
     urls: [
@@ -35,5 +37,6 @@ export const projects: IProject[] = [
         url: 'https://marketplace.visualstudio.com/items?itemName=tootone.org-mode',
       },
     ],
+    content: markdown.orgmode,
   },
 ];

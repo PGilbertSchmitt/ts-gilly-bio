@@ -8,7 +8,8 @@ export interface IProject {
   readonly desc: string;
   readonly urls: IProjectUrl[];
   readonly slug: string;
-  readonly stack: string;
+  readonly stack: string[];
   readonly thumbnail_path: string;
   readonly header_image_path: string;
+  readonly content: string;
 }
