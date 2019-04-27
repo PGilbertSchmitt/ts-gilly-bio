@@ -75,16 +75,14 @@ export interface ICommitResponse {
     type: string;
     site_admin: boolean;
   };
-  parents: [
-    {
-      sha: string;
-      url: string;
-      html_url: string;
-    }
-  ];
+  parents: Array<{
+    sha: string;
+    url: string;
+    html_url: string;
+  }>;
 }
 
-const topLevelKeys = stringLiteralArray(['sha', 'commit', 'html_url']);
+const topLevelKeys = stringLiteralArray(['sha', 'commit', 'html_url', 'parents']);
 
 // Additional null check, since github response can have a null author
 // I believe that indicates a merge request, which isn't important for now.

@@ -1,12 +1,16 @@
+@import './variables';
+
 .github-view {
   width: 500px;
   height: 400px;
   overflow-x: hidden;
-  overflow-y: auto;
+  overflow-y: scroll;
+  background-color: $grey;
 
   .repo-view {
     margin: 0;
     border-bottom: 1px solid grey;
+    background-color: transparent;
 
     &:last-child {
       border: 0;
@@ -18,7 +22,13 @@
       margin: 0;
       padding: 0;
       padding-left: 10px;
-      font-family: 'Fira Code', monospace;
+      font-family: $mono;
+      background-color: transparent;
+
+      &.header-open {
+        border-bottom: 1px solid black;
+        margin-bottom: 5px;
+      }
     }
 
     .commit-box {
@@ -30,7 +40,27 @@
         padding: 0;
 
         .commit-item {
-          border-top: 1px solid lightgray;
+          // border-top: 1px solid lightgray;
+          width: calc(100% - 10px);
+          margin: 0 5px 0px 5px;
+
+          &:first-child {
+            border: none;
+          }
+
+          .commit-message {
+            margin: 0;
+            font-family: $mono;
+          }
+
+          .commit-note {
+            margin: 0;
+            font-family: $mono;
+
+            a {
+              text-decoration: none;
+            }
+          }
         }
       }
     }

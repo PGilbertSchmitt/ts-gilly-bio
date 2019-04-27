@@ -1,6 +1,9 @@
+@import './variables';
+
 i.icon {
   display: inline-block;
-  margin-top: 4px;
+  min-width: 10px;
+  flex-shrink: 0;
   background-size: contain;
   background-repeat: no-repeat;
 }

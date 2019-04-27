@@ -14,6 +14,10 @@ interface OwnProps {
   onOpen: () => void;
 }
 
+const headerClasses = (open: boolean) => {
+  return open ? styles.repoHeader + ' ' + styles.headerOpen : styles.repoHeader;
+};
+
 const RepoItem: FC<OwnProps> = ({ repo, open, onOpen }) => (
   <ExpansionPanel
     square
@@ -21,7 +25,7 @@ const RepoItem: FC<OwnProps> = ({ repo, open, onOpen }) => (
     expanded={open}
     className={styles.repoView}
   >
-    <ExpansionPanelSummary className={styles.repoHeader}>
+    <ExpansionPanelSummary className={headerClasses(open)}>
       <h3>{repo.full_name}</h3>
     </ExpansionPanelSummary>
 
