@@ -1,12 +1,12 @@
 import React, { FunctionComponent as FC, useState, useEffect } from 'react';
 import { Dispatch } from 'redux';
+import { connect } from 'react-redux';
 import isEmpty from 'ramda/src/isEmpty';
 
 import RepoItem from '@comp/content/github_widget/repo_item';
 import { fetchGithubRepos } from '@actions/github_actions';
 import { IRepo } from '@res/github_repo_response';
 import { RootState } from '@reducers/_root_reducer';
-import { connect } from 'react-redux';
 
 import styles from '@styles/github.scss';
 
@@ -61,4 +61,7 @@ const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
   loadRepos: () => dispatch(fetchGithubRepos()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(GithubView);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(GithubView);

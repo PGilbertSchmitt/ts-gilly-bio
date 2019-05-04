@@ -6,9 +6,16 @@ import {
   watchFetchGithubCommits,
 } from '@sagas/github_saga';
 
+import {
+  watchFetchProjectIndex,
+  watchFetchProject,
+} from '@sagas/project_saga';
+
 export default function* rootSaga(): SagaIterator {
   yield all([
     call(watchFetchGithubRepos),
     call(watchFetchGithubCommits),
+    call(watchFetchProjectIndex),
+    call(watchFetchProject),
   ]);
 }
