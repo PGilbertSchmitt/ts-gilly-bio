@@ -45,7 +45,7 @@ const repoConfig = mergeRight<AxConfig, AxConfig>(baseConfig, {
 
 export const getRepos = async () => {
   try {
-    const repos: AxiosResponse<IRepo> = await axios.get(
+    const repos: AxiosResponse<IRepo[]> = await axios.get(
       '/users/PGilbertSchmitt/repos',
       repoConfig,
     );
@@ -84,7 +84,7 @@ const commitConfig = mergeRight<AxConfig, AxConfig>(baseConfig, {
 // repo param should be `<user>/<repo_name>`, which is returned as the 'full_name' value in the repo response
 export const getCommits = async (repo: string) => {
   try {
-    const commits = await axios.get(
+    const commits: AxiosResponse<ICommit[]> = await axios.get(
       `/repos/${repo}/commits`,
       commitConfig,
     );
