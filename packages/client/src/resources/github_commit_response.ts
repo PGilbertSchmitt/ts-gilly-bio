@@ -1,7 +1,7 @@
 import pick from 'ramda/es/pick';
 import filter from 'ramda/es/filter';
 
-import { stringLiteralArray } from '@util/other';
+import { stringLiteralArray } from '@gilly/common';
 import { MY_GITHUB_LOGIN } from '@util/constants';
 
 export interface ICommitResponse {

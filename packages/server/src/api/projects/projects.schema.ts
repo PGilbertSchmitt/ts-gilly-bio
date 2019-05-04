@@ -1,6 +1,6 @@
 import { Schema, Document } from 'mongoose';
 
-import { IProject } from '@src/interfaces/project';
+import { IProject } from '@gilly/common';
 
 export interface IProjectDoc extends IProject, Document {
   created_at: Date;

@@ -1,6 +1,6 @@
 import pick from 'ramda/es/pick';
 
-import { stringLiteralArray } from '@util/other';
+import { stringLiteralArray } from '@gilly/common';
 
 export interface IRepoResponse {
   id: number;

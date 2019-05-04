@@ -1,19 +1,15 @@
 import { Model } from 'mongoose';
 import { Injectable, Inject } from '@nestjs/common';
-import pick from 'lodash/pick';
 
-import { IProject } from '@src/interfaces/project';
+import {
+  IProjectIndexItem,
+  pickProjectIndexItem,
+  IProjectItem,
+  pickProjectItem,
+} from '@gilly/common';
 import { projectsToken } from './projects.provider';
 import { IProjectDoc } from './projects.schema';
-import { Error } from '@src/interfaces/error';
-
-/* JSON filtering explanation:
- *
- * In Rails, I had jbuilder to structure my api's json payloads to convert my full database output into a
- * returnable json payload, leaving out all the unnecessary data like row id or columns unrelated to the
- * endpoint. The best method I could find to accomplish this in Nest was just to create an array of the
- * desired keys, then using a pick function to filter out only those attributes.
- */
+import { Error } from '@gilly/common';
 
 @Injectable()
 export class ProjectsService {
@@ -21,42 +17,20 @@ export class ProjectsService {
     @Inject(projectsToken) private readonly projectModel: Model<IProjectDoc>,
   ) { }
 
-  private readonly FIND_ALL_KEYS = [
-    'title',
-    'desc',
-    'slug',
-    'thumbnail_path',
-  ];
-
-  async findAll(): Promise<IProject[]> {
+  async findAll(): Promise<IProjectIndexItem[]> {
     const projectDocs = await this.projectModel.find().exec();
     return projectDocs.map((doc) => (
-      this.filterByKeys(doc, this.FIND_ALL_KEYS)
+      pickProjectIndexItem(doc)
     ));
   }
 
-  private readonly SLUG_KEYS = [
-    'title',
-    'desc',
-    'slug',
-    'stack',
-    'thumbnail_path',
-    'header_image_path',
-    'urls',
-  ];
-
-  async find(slug: string): Promise<IProject | Error> {
+  async find(slug: string): Promise<IProjectItem | Error> {
     const projectDoc = await this.projectModel.findOne({ slug }).exec();
     if (!!projectDoc) {
-      return this.filterByKeys(projectDoc, this.SLUG_KEYS);
+      return pickProjectItem(projectDoc);
     }
     return ({
       message: `Oy mate, didn't find project ${slug}`,
     });
-  }
-
-  filterByKeys(doc: IProjectDoc, keys: string[]): IProject {
-    // This could be unsafe, but I will not be doing any weird modifications to the data, so it should be fine.
-    return pick(doc, keys) as IProject;
   }
 }
