@@ -2,7 +2,12 @@ import { Controller, Get, Render, Param } from '@nestjs/common';
 
 @Controller('/')
 export class StaticController {
-  @Get(['', 'blog', 'projects'])
+  @Get([
+    '',
+    'blog',
+    'projects',
+    'projects/:slug',
+  ])
   @Render('index')
   index() {
     return {};
