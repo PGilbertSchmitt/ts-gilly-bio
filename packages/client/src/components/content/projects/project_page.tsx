@@ -1,14 +1,13 @@
 import React, { FunctionComponent as FC } from 'react';
-import { Switch, Route, RouteComponentProps } from 'react-router-dom';
+import { Route, RouteComponentProps } from 'react-router-dom';
 
 import ProjectIndex from './project_index';
+import ProjectItem from './project_item';
 
 const ProjectPage: FC<RouteComponentProps> = ({ match }) => (
   <>
-    <Route exact path={`${match.url}`} component={ProjectIndex} />
-    <Route path={`${match.url}/:slug`} render={(props) => (
-      <h3>We are looking at {props.match.url}</h3>
-    )} />
+    <Route exact path={`${match.path}`} component={ProjectIndex} />
+    <Route path={`${match.path}/:slug`} component={ProjectItem} />
   </>
 );
 
