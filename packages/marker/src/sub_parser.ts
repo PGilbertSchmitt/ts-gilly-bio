@@ -10,6 +10,9 @@ import {
   HardBreak,
   SoftBreak,
   Link,
+  Emphasis,
+  Strong,
+  Strikethrough,
 } from './ast';
 
 export default class SubParser extends Parser {
@@ -41,6 +44,34 @@ export default class SubParser extends Parser {
       type: SubTypes.softbreak,
     };
   }
+
+  private parseEmphasis: SNP = (): Emphasis => {
+    const token = this.curToken();
+    this.step();
+    return {
+      type: SubTypes.emphasis,
+      parts: this.parseSection(TT.em_close),
+    };
+  }
+
+  private parseStrong: SNP = (): Strong => {
+    const token = this.curToken();
+    this.step();
+    return {
+      type: SubTypes.strong,
+      parts: this.parseSection(TT.strong_close),
+    };
+  }
+
+  private parseStrikethrough: SNP = (): Strikethrough => {
+    const token = this.curToken();
+    this.step();
+    return {
+      type: SubTypes.strikethrough,
+      parts: this.parseSection(TT.s_close),
+    };
+  }
+
 
   private parseLink: SNP = (): Link => {
     const linkToken = this.curToken();
@@ -77,6 +108,12 @@ export default class SubParser extends Parser {
         return this.parseSoftBreak;
       case TT.link_open:
         return this.parseLink;
+      case TT.em_open:
+        return this.parseEmphasis;
+      case TT.strong_open:
+        return this.parseStrong;
+      case TT.s_open:
+        return this.parseStrikethrough;
       default:
         this.error(`No parser for tokentype ${tokenType}`);
         return this.invalidParser;
