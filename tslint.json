@@ -20,7 +20,8 @@
       true,
       150
     ],
-    "space-before-function-paren": false
+    "space-before-function-paren": false,
+    "trailing-comma": true
   },
   "jsRules": {
     "no-unused-expression": true
