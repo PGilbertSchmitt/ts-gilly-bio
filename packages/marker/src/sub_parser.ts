@@ -1,7 +1,6 @@
 import Parser, { SNP } from './parser';
 import { Token, TokenType as TT, TokenType } from './token';
 import {
-  SubNode,
   SubTypes,
 
   InlineSection,
@@ -13,7 +12,14 @@ import {
   Emphasis,
   Strong,
   Strikethrough,
+  Image,
+  CodeInline,
 } from './ast';
+
+const getAttr = (token: Token, attrName: string) => {
+  const attrArray = token.attrs.find(attr => attr[0] === attrName) as string[];
+  return (attrArray || [])[1];
+};
 
 export default class SubParser extends Parser {
   constructor(tokens: Token[]) {
@@ -21,16 +27,24 @@ export default class SubParser extends Parser {
   }
 
   private parseText: SNP = (): Text => {
-    const token = this.curToken();
+    const { content } = this.curToken();
     this.step();
     return {
       type: SubTypes.text,
-      value: token.content,
+      value: content,
+    };
+  }
+
+  private parseCodeInline: SNP = (): CodeInline => {
+    const { content } = this.curToken();
+    this.step();
+    return {
+      type: SubTypes.codeInline,
+      value: content,
     };
   }
 
   private parseHardbreak: SNP = (): HardBreak => {
-    const token = this.curToken();
     this.step();
     return {
       type: SubTypes.hardbreak,
@@ -38,7 +52,6 @@ export default class SubParser extends Parser {
   }
 
   private parseSoftBreak: SNP = (): SoftBreak => {
-    const token = this.curToken();
     this.step();
     return {
       type: SubTypes.softbreak,
@@ -46,7 +59,6 @@ export default class SubParser extends Parser {
   }
 
   private parseEmphasis: SNP = (): Emphasis => {
-    const token = this.curToken();
     this.step();
     return {
       type: SubTypes.emphasis,
@@ -55,7 +67,6 @@ export default class SubParser extends Parser {
   }
 
   private parseStrong: SNP = (): Strong => {
-    const token = this.curToken();
     this.step();
     return {
       type: SubTypes.strong,
@@ -64,7 +75,6 @@ export default class SubParser extends Parser {
   }
 
   private parseStrikethrough: SNP = (): Strikethrough => {
-    const token = this.curToken();
     this.step();
     return {
       type: SubTypes.strikethrough,
@@ -72,6 +82,28 @@ export default class SubParser extends Parser {
     };
   }
 
+  private parseImage: SNP = (): Image => {
+    const imageToken = this.curToken();
+    this.step();
+
+    if (!imageToken.attrs) {
+      this.error(`Image doesn't have attrs\n=> ${JSON.stringify(imageToken)}`);
+    }
+
+    const src = getAttr(imageToken, 'src');
+    const title = getAttr(imageToken, 'title');
+    const alt = getAttr(imageToken, 'alt');
+
+    const image: Image = {
+      type: SubTypes.image,
+      src,
+    };
+
+    if (!!title) { image.title = title; }
+    if (!!alt) { image.alt = alt; }
+
+    return image;
+  }
 
   private parseLink: SNP = (): Link => {
     const linkToken = this.curToken();
@@ -81,8 +113,8 @@ export default class SubParser extends Parser {
       this.error(`Link doesn't have attrs\n=> ${JSON.stringify(linkToken)}`);
     }
 
-    const href = (linkToken.attrs.find(attr => attr[0] === 'href') as string[])[1];
-    const titleAttr = linkToken.attrs.find(attr => attr[0] === 'title') as string[];
+    const href = getAttr(linkToken, 'href');
+    const title = getAttr(linkToken, 'title');
     const parts = this.parseSection(TT.link_close);
 
     const link: Link = {
@@ -91,8 +123,8 @@ export default class SubParser extends Parser {
       dest: href,
     };
 
-    if (titleAttr) {
-      link.title = titleAttr[1];
+    if (!!title) {
+      link.title = title;
     }
 
     return link;
@@ -102,6 +134,8 @@ export default class SubParser extends Parser {
     switch (tokenType) {
       case TT.text:
         return this.parseText;
+      case TT.code_inline:
+        return this.parseCodeInline;
       case TT.hardbreak:
         return this.parseHardbreak;
       case TT.softbreak:
@@ -114,6 +148,8 @@ export default class SubParser extends Parser {
         return this.parseStrong;
       case TT.s_open:
         return this.parseStrikethrough;
+      case TT.image:
+        return this.parseImage;
       default:
         this.error(`No parser for tokentype ${tokenType}`);
         return this.invalidParser;
