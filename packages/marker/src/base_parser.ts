@@ -2,13 +2,17 @@ import Parser, { BNP } from './parser';
 import SubParser from './sub_parser';
 import { Token, TokenType as TT } from './token';
 import {
-  MarkdownDoc,
   BaseTypes,
-  BaseNode,
 
+  InlineSection,
+
+  MarkdownDoc,
   Paragraph,
   Heading,
-  InlineSection,
+  HorizontalRow,
+  Fence,
+  BulletList,
+  OrderedList,
 } from './ast';
 
 type oneToSix = 1 | 2 | 3 | 4 | 5 | 6;
@@ -19,20 +23,6 @@ export default class BaseParser extends Parser {
   constructor(tokens: Token[]) {
     super(tokens);
   }
-
-  /* Base Node Parsers */
-
-  // private parseInline = (tokens: Token[]): InlineSection => {
-  // const inlineParser = new Parser(tokens);
-  // const subNodes: InlineSection = [];
-
-  // const inlinePos = 0;
-  // while (inlinePos < tokens.length) {
-  //   subNodes.push(this.getSubNodeParser(tokens[inlinePos].type)());
-  // }
-
-  // return inlineParser.parse();
-  // }
 
   private parseInlineToken = (): InlineSection => {
     const inlineToken = this.curToken();
@@ -49,9 +39,15 @@ export default class BaseParser extends Parser {
     return parts;
   }
 
-  private parseParagraph: BNP = (): Paragraph => {
+  private parseHorizontalRow: BNP = (): HorizontalRow => {
     this.step();
+    return {
+      type: BaseTypes.horizontalRow,
+    };
+  }
 
+  private parseParagraph = (): Paragraph => {
+    this.step();
     return {
       type: BaseTypes.paragraph,
       parts: this.parseInlineToken(),
@@ -61,13 +57,56 @@ export default class BaseParser extends Parser {
   private parseHeading: BNP = (): Heading => {
     // I'm trusting the markup to always be a string of hash signs
     const size = this.curToken().markup.length as oneToSix;
-
     this.step();
-
     return {
       type: BaseTypes.heading,
       parts: this.parseInlineToken(),
       size,
+    };
+  }
+
+  private parseFence: BNP = (): Fence => {
+    const { content } = this.curToken();
+    this.step();
+    return {
+      type: BaseTypes.fence,
+      value: content,
+    };
+  }
+
+  // private parseListItem = (): InlineSection => {
+  // }
+
+  private parseListItems = (): InlineSection[] => {
+    const items: InlineSection[] = [];
+    while (this.curToken().type === TT.paragraph_open) {
+      const paragraph = this.parseParagraph() as Paragraph;
+      items.push(paragraph.parts);
+    }
+
+    if (this.curToken().type !== TT.list_item_close) {
+      this.error(`Expected to find list item close, got ${JSON.stringify(this.curToken())}`);
+    }
+
+    this.step();
+    return items;
+  }
+
+  private parseBulletList = (): BulletList => {
+    this.step();
+    const items = this.parseListItems();
+    return {
+      type: BaseTypes.bulletList,
+      list: items,
+    };
+  }
+
+  private parseOrderedList = (): OrderedList => {
+    this.step();
+    const items = this.parseListItems();
+    return {
+      type: BaseTypes.orderedList,
+      list: items,
     };
   }
 
@@ -77,6 +116,12 @@ export default class BaseParser extends Parser {
         return this.parseParagraph;
       case TT.heading_open:
         return this.parseHeading;
+      case TT.hr:
+        return this.parseHorizontalRow;
+      case TT.bullet_list_open:
+        return this.parseBulletList;
+      case TT.ordered_list_open:
+        return this.parseOrderedList;
       default:
         this.error(`No parser for tokentype ${tokenType}`);
         return this.invalidParser;
