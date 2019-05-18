@@ -7,6 +7,7 @@ import {
   FETCH_PROJECT,
   RECEIVE_PROJECT_INDEX,
   RECEIVE_PROJECT,
+  CONVERT_PROJECT,
 } from '@util/constants';
 import {
   IProjectIndexItem,
@@ -24,6 +25,15 @@ export const receiveProject = makeAction(RECEIVE_PROJECT)(
     payload: {
       slug,
       project,
+    },
+  }),
+);
+
+export const convertProject = makeAction(CONVERT_PROJECT)(
+  (slug: string, html: string) => ({
+    payload: {
+      slug,
+      html,
     },
   }),
 );

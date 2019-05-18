@@ -5,6 +5,7 @@ import { AxiosResponse } from 'axios';
 import {
   receiveProjectIndex,
   receiveProject,
+  convertProject,
   ProjectAction,
 } from '@actions/project_actions';
 import {
@@ -15,6 +16,7 @@ import {
   FETCH_PROJECT_INDEX,
   FETCH_PROJECT,
 } from '@util/constants';
+import { mdToHTML } from '@util/markdown';
 import {
   IProjectIndexItem,
   IProject,
@@ -35,7 +37,13 @@ function* fetchProject({ payload: { slug } }: ProjectAction): SagaIterator {
   try {
     const projectResponse: AxiosResponse<IProject>
       = yield call(() => getProject(slug));
-    yield put<any>(receiveProject(slug, projectResponse.data));
+
+    const project = projectResponse.data;
+    yield put<any>(receiveProject(slug, project));
+
+    const { content } = project;
+    const html: string = yield call(() => mdToHTML(content));
+    yield put<any>(convertProject(slug, html));
   } catch (e) {
     console.log('You want a project? Too bad!');
     console.log(e);
