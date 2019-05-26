@@ -97,10 +97,21 @@ export interface Blockquote {
   parts: InlineSection;
 }
 
+export type alignment = 'left' | 'center' | 'right';
+
+export interface Cell {
+  parts: InlineSection;
+  align: alignment;
+}
+
+export interface Row {
+  columns: Cell[];
+}
+
 export interface Table {
   type: BaseTypes.table;
-  head: string[];
-  body: string[][];
+  head: Row;
+  body: Row[];
 }
 
 /* Sub Types */

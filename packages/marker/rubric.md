@@ -27,7 +27,7 @@ with a softbreak with one space
 This is a paragraph  
 with a hardbreak with two spaces
 
-This is a text with an *italic style*, a **bold style**, and a ~strikethrough~
+This is a text with an *italic style*, a **bold style**, and a ~~strikethrough~~
 
 This is an `inline code block`
 
@@ -55,8 +55,6 @@ This is a [reference link] using its own text as a reference
 
 [image reference]: https://upload.wikimedia.org/wikipedia/commons/5/5a/City_of_Rockhampton_train_%28Sunshine_railway_station%2C_Brisbane%29.jpg "Second title text"
 
-### This header has **internal styles** within it
-
 This *paragraph has **nested** styles*
 
 [This link has a **style** inside it](www.example.com)
@@ -73,3 +71,11 @@ This *paragraph has **nested** styles*
 * An item
 * Another item
 * Yet another item
+
+| Tables        |      Are      |   Cool |
+| :------------ | :-----------: | -----: |
+| *col 3 is*    | right-aligned |  $1600 |
+| col 2 is      | **centered**  |    $12 |
+| zebra stripes |   are neat    | ~~$1~~ |
+
+### This header has **internal styles** within it
