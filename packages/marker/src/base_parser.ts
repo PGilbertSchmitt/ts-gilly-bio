@@ -14,6 +14,7 @@ import {
   BulletList,
   OrderedList,
   Table,
+  Blockquote,
 
   ListItem,
   Row,
@@ -33,7 +34,7 @@ export default class BaseParser extends Parser {
   private parseInlineToken = (): InlineSection => {
     const inlineToken = this.curToken();
     if (inlineToken.type !== TT.inline || !inlineToken.children) {
-      this.error(`Expected inline token, got ${inlineToken}`);
+      this.error(`Expected inline token, got ${JSON.stringify(inlineToken)}`);
     }
 
     // Call to error should prevent children from being null
@@ -196,6 +197,18 @@ export default class BaseParser extends Parser {
     };
   }
 
+  private parseBlockquote = (): Blockquote => {
+    this.step();
+    this.expect(TT.paragraph_open);
+    this.step();
+    const quote: Blockquote = {
+      type: BaseTypes.blockquote,
+      parts: this.parseInlineToken(),
+    };
+    this.step();
+    return quote;
+  }
+
   private getBaseNodeParser = (tokenType: TT): BNP => {
     switch (tokenType) {
       case TT.paragraph_open:
@@ -212,6 +225,8 @@ export default class BaseParser extends Parser {
         return this.parseFence;
       case TT.table_open:
         return this.parseTable;
+      case TT.blockquote_open:
+        return this.parseBlockquote;
       default:
         this.error(`No parser for tokentype ${tokenType}`);
         return this.invalidParser;

@@ -78,4 +78,6 @@ This *paragraph has **nested** styles*
 | col 2 is      | **centered**  |    $12 |
 | zebra stripes |   are neat    | ~~$1~~ |
 
+> This is a block quote with **internal styles**.
+
 ### This header has **internal styles** within it
