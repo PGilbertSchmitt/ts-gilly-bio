@@ -168,8 +168,6 @@ export default class SubParser extends Parser {
   }
 
   parseBlock = (): InlineSection => {
-    console.log('parsing children of Inline token');
-
     const inlineSection: InlineSection = [];
     while (this.stillParsing()) {
       const curType = this.curToken().type;

@@ -13,6 +13,8 @@ import {
   Fence,
   BulletList,
   OrderedList,
+
+  ListItem,
 } from './ast';
 
 type oneToSix = 1 | 2 | 3 | 4 | 5 | 6;
@@ -74,27 +76,43 @@ export default class BaseParser extends Parser {
     };
   }
 
-  // private parseListItem = (): InlineSection => {
-  // }
-
-  private parseListItems = (): InlineSection[] => {
-    const items: InlineSection[] = [];
-    while (this.curToken().type === TT.paragraph_open) {
-      const paragraph = this.parseParagraph() as Paragraph;
-      items.push(paragraph.parts);
+  private parseListItems = (
+    endToken: TT.ordered_list_close | TT.bullet_list_close
+  ): ListItem[] => {
+    const items: ListItem[] = [];
+    while (this.curToken().type === TT.list_item_open) {
+      const item = this.parseListItem();
+      items.push(item);
     }
 
-    if (this.curToken().type !== TT.list_item_close) {
-      this.error(`Expected to find list item close, got ${JSON.stringify(this.curToken())}`);
+    if (this.curToken().type !== endToken) {
+      this.error(`Expected to find ${endToken}, got ${JSON.stringify(this.curToken())}`);
     }
 
     this.step();
     return items;
   }
 
+  private parseListItem = (): ListItem => {
+    this.step();
+
+    const parts: Paragraph[] = [];
+    while (this.curToken().type === TT.paragraph_open) {
+      const paragraph = this.parseParagraph() as Paragraph;
+      parts.push(paragraph);
+    }
+
+    if (this.curToken().type !== TT.list_item_close) {
+      this.error(`Expected to find list item close, got ${JSON.stringify(this.curToken())}`);
+    }
+    this.step();
+
+    return { parts };
+  }
+
   private parseBulletList = (): BulletList => {
     this.step();
-    const items = this.parseListItems();
+    const items = this.parseListItems(TT.bullet_list_close);
     return {
       type: BaseTypes.bulletList,
       list: items,
@@ -103,7 +121,7 @@ export default class BaseParser extends Parser {
 
   private parseOrderedList = (): OrderedList => {
     this.step();
-    const items = this.parseListItems();
+    const items = this.parseListItems(TT.ordered_list_close);
     return {
       type: BaseTypes.orderedList,
       list: items,
@@ -122,6 +140,8 @@ export default class BaseParser extends Parser {
         return this.parseBulletList;
       case TT.ordered_list_open:
         return this.parseOrderedList;
+      case TT.fence:
+        return this.parseFence;
       default:
         this.error(`No parser for tokentype ${tokenType}`);
         return this.invalidParser;

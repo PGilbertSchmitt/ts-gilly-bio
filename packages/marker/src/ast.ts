@@ -78,14 +78,18 @@ export interface Fence {
   value: string;
 }
 
+export interface ListItem {
+  parts: Paragraph[];
+}
+
 export interface OrderedList {
   type: BaseTypes.orderedList;
-  list: InlineSection[];
+  list: ListItem[];
 }
 
 export interface BulletList {
   type: BaseTypes.bulletList;
-  list: InlineSection[];
+  list: ListItem[];
 }
 
 export interface Blockquote {

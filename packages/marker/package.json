@@ -13,10 +13,13 @@
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "build:watch": "tsc -p tsconfig.json --watch"
+    "build:watch": "tsc -p tsconfig.json --watch",
+    "try": "ts-node try.ts",
+    "gen": "ts-node generate.ts"
   },
   "dependencies": {
     "markdown": "^0.5.0",
-    "markdown-it": "^8.4.2"
+    "markdown-it": "^8.4.2",
+    "ts-node": "^8.2.0"
   }
 }
