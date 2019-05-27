@@ -7,11 +7,10 @@ import {
   FETCH_PROJECT,
   RECEIVE_PROJECT_INDEX,
   RECEIVE_PROJECT,
-  CONVERT_PROJECT,
 } from '@util/constants';
 import {
   IProjectIndexItem,
-  IProjectItem,
+  StateProjectItem,
 } from '@gilly/common';
 
 export const receiveProjectIndex = makeAction(RECEIVE_PROJECT_INDEX)(
@@ -21,19 +20,10 @@ export const receiveProjectIndex = makeAction(RECEIVE_PROJECT_INDEX)(
 );
 
 export const receiveProject = makeAction(RECEIVE_PROJECT)(
-  (slug: string, project: IProjectItem) => ({
+  (slug: string, project: StateProjectItem) => ({
     payload: {
       slug,
       project,
-    },
-  }),
-);
-
-export const convertProject = makeAction(CONVERT_PROJECT)(
-  (slug: string, html: string) => ({
-    payload: {
-      slug,
-      html,
     },
   }),
 );

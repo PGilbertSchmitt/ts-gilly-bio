@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import has from 'ramda/es/has';
 
-import { IProjectItem } from '@gilly/common';
+import { StateProjectItem } from '@gilly/common';
 import { fetchProject } from '@actions/project_actions';
 import { RootState } from '@reducers/_root_reducer';
 
@@ -12,8 +12,7 @@ type StateProps = {
   loading: true;
 } | {
   loading: false;
-  converted: boolean;
-  project: IProjectItem;
+  project: StateProjectItem;
 };
 
 interface DispatchProps {
@@ -32,7 +31,7 @@ const ProjectItem: FC<Props> = (props) => {
     }
   }, [loading]);
 
-  if (props.loading || !props.converted) {
+  if (props.loading) {
     return (
       <div>Loading...</div>
     );
@@ -50,7 +49,7 @@ const ProjectItem: FC<Props> = (props) => {
   return (
     <div>
       <h1>{project.title}</h1>
-      <p>{project.header_image_path}</p>
+      <p>{JSON.stringify(project.content)}</p>
     </div>
   );
 };
@@ -63,12 +62,9 @@ const mapStateToProps = ({ projects }: RootState, { match }: RouteProps): StateP
     return { loading };
   }
 
-  const { project, converted } = projects[slug];
-
   return {
     loading,
-    converted,
-    project,
+    project: projects[slug]
   };
 };
 

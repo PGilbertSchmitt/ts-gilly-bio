@@ -9,7 +9,7 @@ import {
 
 import {
   ProjectIndexState,
-  ProjectState,
+  ProjectStates,
   projectIndexReducer,
   projectReducer,
 } from '@reducers/project_reducer';
@@ -18,7 +18,7 @@ export interface RootState {
   repos: RepoState;
   commits: CommitState;
   projectIndex: ProjectIndexState;
-  projects: ProjectState;
+  projects: ProjectStates;
 }
 
 export default combineReducers<RootState>({
