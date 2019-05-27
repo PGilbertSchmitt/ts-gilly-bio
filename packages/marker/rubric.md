@@ -27,9 +27,7 @@ with a softbreak with one space
 This is a paragraph  
 with a hardbreak with two spaces
 
-This is a text with an *italic style*, a **bold style**, and a ~~strikethrough~~
-
-This is an `inline code block`
+This is a text with an *italic style*, a **bold style**, a ~~strikethrough~~, and `inlined code`.
 
 ```javascript
 const x = 'This is a code block';
@@ -58,6 +56,9 @@ This is a [reference link] using its own text as a reference
 This *paragraph has **nested** styles*
 
 [This link has a **style** inside it](www.example.com)
+
+
+This paragraph has a ~~[**bold link**](www.example.com)~~ with a line through it
 
 1. First item 
    With more
