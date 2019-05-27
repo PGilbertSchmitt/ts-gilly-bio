@@ -1,4 +1,4 @@
-import { Token } from './token';
+import { Token, TokenType } from './token';
 import {
   SubNode,
   BaseNode,
@@ -31,6 +31,13 @@ export default abstract class Parser {
 
   protected error = (msg: string) => {
     throw new Error(`Error while parsing token ${this.curPos}:\n${msg}\n`);
+  }
+
+  protected expect = (tt: TokenType) => {
+    const curType = this.curToken().type;
+    if (tt !== curType) {
+      throw new Error(`At token ${this.curPos}: Expected ${tt}, got ${this.curToken().type}`);
+    }
   }
 
   protected stillParsing = () => this.curPos < this.tokens.length;

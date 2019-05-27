@@ -78,14 +78,16 @@ export interface Fence {
   value: string;
 }
 
+export type ListItem = Array<Paragraph | BulletList | OrderedList>;
+
 export interface OrderedList {
   type: BaseTypes.orderedList;
-  list: InlineSection[];
+  list: ListItem[];
 }
 
 export interface BulletList {
   type: BaseTypes.bulletList;
-  list: InlineSection[];
+  list: ListItem[];
 }
 
 export interface Blockquote {
@@ -93,10 +95,21 @@ export interface Blockquote {
   parts: InlineSection;
 }
 
+export type alignment = 'left' | 'center' | 'right';
+
+export interface Cell {
+  parts: InlineSection;
+  align: alignment;
+}
+
+export interface Row {
+  columns: Cell[];
+}
+
 export interface Table {
   type: BaseTypes.table;
-  head: string[];
-  body: string[][];
+  head: Row;
+  body: Row[];
 }
 
 /* Sub Types */

@@ -13,6 +13,13 @@ import {
   Fence,
   BulletList,
   OrderedList,
+  Table,
+  Blockquote,
+
+  ListItem,
+  Row,
+  Cell,
+  alignment,
 } from './ast';
 
 type oneToSix = 1 | 2 | 3 | 4 | 5 | 6;
@@ -27,7 +34,7 @@ export default class BaseParser extends Parser {
   private parseInlineToken = (): InlineSection => {
     const inlineToken = this.curToken();
     if (inlineToken.type !== TT.inline || !inlineToken.children) {
-      this.error('Expected inline token');
+      this.error(`Expected inline token, got ${JSON.stringify(inlineToken)}`);
     }
 
     // Call to error should prevent children from being null
@@ -74,27 +81,52 @@ export default class BaseParser extends Parser {
     };
   }
 
-  // private parseListItem = (): InlineSection => {
-  // }
-
-  private parseListItems = (): InlineSection[] => {
-    const items: InlineSection[] = [];
-    while (this.curToken().type === TT.paragraph_open) {
-      const paragraph = this.parseParagraph() as Paragraph;
-      items.push(paragraph.parts);
+  private parseListItems = (
+    endToken: TT.ordered_list_close | TT.bullet_list_close
+  ): ListItem[] => {
+    const items: ListItem[] = [];
+    while (this.curToken().type === TT.list_item_open) {
+      const item = this.parseListItem();
+      items.push(item);
     }
 
-    if (this.curToken().type !== TT.list_item_close) {
-      this.error(`Expected to find list item close, got ${JSON.stringify(this.curToken())}`);
+    if (this.curToken().type !== endToken) {
+      this.error(`Expected to find ${endToken}, got ${JSON.stringify(this.curToken())}`);
     }
 
     this.step();
     return items;
   }
 
+  private parseListItem = (): ListItem => {
+    this.step();
+
+    const parts: ListItem = [];
+    while (this.curToken().type !== TT.list_item_close) {
+      switch (this.curToken().type) {
+        case TT.paragraph_open:
+          parts.push(this.parseParagraph());
+          break;
+        case TT.bullet_list_open:
+          parts.push(this.parseBulletList());
+          break;
+        case TT.ordered_list_open:
+          parts.push(this.parseOrderedList());
+          break;
+      }
+    }
+
+    if (this.curToken().type !== TT.list_item_close) {
+      this.error(`Expected to find list item close, got ${JSON.stringify(this.curToken())}`);
+    }
+    this.step();
+
+    return parts;
+  }
+
   private parseBulletList = (): BulletList => {
     this.step();
-    const items = this.parseListItems();
+    const items = this.parseListItems(TT.bullet_list_close);
     return {
       type: BaseTypes.bulletList,
       list: items,
@@ -103,11 +135,86 @@ export default class BaseParser extends Parser {
 
   private parseOrderedList = (): OrderedList => {
     this.step();
-    const items = this.parseListItems();
+    const items = this.parseListItems(TT.ordered_list_close);
     return {
       type: BaseTypes.orderedList,
       list: items,
     };
+  }
+
+  private parseTable = (): Table => {
+    this.step();
+
+    this.expect(TT.thead_open);
+    this.step();
+    const head = this.parseRow(TT.th_open);
+
+    this.step();
+    this.expect(TT.tbody_open);
+    this.step();
+
+    const body: Row[] = [];
+    while (this.curToken().type === TT.tr_open) {
+      const row = this.parseRow(TT.td_open);
+      body.push(row);
+    }
+    this.expect(TT.tbody_close);
+    this.step();
+    this.step();
+
+    return {
+      type: BaseTypes.table,
+      head,
+      body,
+    };
+  }
+
+  private parseRow = (cellToken: TT): Row => {
+    this.step();
+    const cells: Cell[] = [];
+
+    while (this.curToken().type === cellToken) {
+      const cell = this.parseCell();
+      cells.push(cell);
+    }
+
+    this.step();
+
+    return {
+      columns: cells,
+    };
+  }
+
+  private parseCell = (): Cell => {
+    const attrs = this.curToken().attrs;
+    let align: alignment;
+    try {
+      // A lot of trust in this next line
+      align = (attrs[0][1].split(':')[1] as alignment) || 'left';
+    } catch {
+      align = 'left';
+    }
+
+    this.step();
+
+    const cellParts = this.parseInlineToken();
+
+    return {
+      parts: cellParts,
+      align,
+    };
+  }
+
+  private parseBlockquote = (): Blockquote => {
+    this.step();
+    this.expect(TT.paragraph_open);
+    this.step();
+    const quote: Blockquote = {
+      type: BaseTypes.blockquote,
+      parts: this.parseInlineToken(),
+    };
+    this.step();
+    return quote;
   }
 
   private getBaseNodeParser = (tokenType: TT): BNP => {
@@ -122,6 +229,12 @@ export default class BaseParser extends Parser {
         return this.parseBulletList;
       case TT.ordered_list_open:
         return this.parseOrderedList;
+      case TT.fence:
+        return this.parseFence;
+      case TT.table_open:
+        return this.parseTable;
+      case TT.blockquote_open:
+        return this.parseBlockquote;
       default:
         this.error(`No parser for tokentype ${tokenType}`);
         return this.invalidParser;
@@ -135,7 +248,6 @@ export default class BaseParser extends Parser {
 
     this.doc = [];
 
-    console.log('heyhey');
     while (this.stillParsing()) {
       const curType = this.curToken().type;
       this.doc.push(this.getBaseNodeParser(curType)());

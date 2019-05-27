@@ -1,5 +1,5 @@
 import { Action } from 'redux';
-import mergeRight from 'ramda/es/mergeRight';
+import mergeRight from 'ramda/src/mergeRight';
 
 import { isAction } from '@util/action_types';
 import {
@@ -8,7 +8,7 @@ import {
 } from '@actions/project_actions';
 import {
   IProjectIndexItem,
-  IProjectItem,
+  StateProjectItem,
 } from '@gilly/common';
 
 export interface ProjectIndexState {
@@ -34,16 +34,17 @@ export const projectIndexReducer = (
   return state;
 };
 
-export interface ProjectState {
-  [slug: string]: IProjectItem;
+export interface ProjectStates {
+  [slug: string]: StateProjectItem;
 }
 
 export const projectReducer = (
-  state: ProjectState = {},
+  state: ProjectStates = {},
   action: Action,
-): ProjectState => {
+): ProjectStates => {
   if (isAction(action, receiveProject)) {
     const { slug, project } = action.payload;
+
     return mergeRight(state, {
       [slug]: project,
     });

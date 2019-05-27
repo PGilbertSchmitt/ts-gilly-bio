@@ -10,7 +10,7 @@ import {
 } from '@util/constants';
 import {
   IProjectIndexItem,
-  IProjectItem,
+  StateProjectItem,
 } from '@gilly/common';
 
 export const receiveProjectIndex = makeAction(RECEIVE_PROJECT_INDEX)(
@@ -20,7 +20,7 @@ export const receiveProjectIndex = makeAction(RECEIVE_PROJECT_INDEX)(
 );
 
 export const receiveProject = makeAction(RECEIVE_PROJECT)(
-  (slug: string, project: IProjectItem) => ({
+  (slug: string, project: StateProjectItem) => ({
     payload: {
       slug,
       project,

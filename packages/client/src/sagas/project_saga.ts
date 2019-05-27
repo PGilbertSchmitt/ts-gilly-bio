@@ -17,7 +17,7 @@ import {
 } from '@util/constants';
 import {
   IProjectIndexItem,
-  IProject,
+  StateProjectItem,
 } from '@gilly/common';
 
 function* fetchProjectIndex(): SagaIterator {
@@ -33,9 +33,11 @@ function* fetchProjectIndex(): SagaIterator {
 
 function* fetchProject({ payload: { slug } }: ProjectAction): SagaIterator {
   try {
-    const projectResponse: AxiosResponse<IProject>
+    const projectResponse: AxiosResponse<StateProjectItem>
       = yield call(() => getProject(slug));
-    yield put<any>(receiveProject(slug, projectResponse.data));
+
+    const project = projectResponse.data;
+    yield put<any>(receiveProject(slug, project));
   } catch (e) {
     console.log('You want a project? Too bad!');
     console.log(e);

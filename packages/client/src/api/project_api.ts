@@ -1,10 +1,15 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, {
+  AxiosResponse, AxiosRequestConfig
+} from 'axios';
 
 import {
   IProjectIndexItem,
-  IProjectItem,
   Error,
+  APIProjectItem,
+  StateProjectItem,
 } from '@gilly/common';
+
+import { parseMarkdown } from '@gilly/marker';
 
 export const getProjectIndex = async () => {
   try {
@@ -16,9 +21,34 @@ export const getProjectIndex = async () => {
   }
 };
 
+const getProjectConfig: AxiosRequestConfig = {
+  transformResponse: [
+    // Parse into JSON
+    (data: string): APIProjectItem => (
+      JSON.parse(data) as APIProjectItem
+    ),
+
+    // Convert project content from markdown to an AST
+    (project: APIProjectItem): StateProjectItem => {
+      const { title, stack, urls, header_image_path, content } = project;
+      const convertedContent = parseMarkdown(content);
+      return {
+        title,
+        stack,
+        urls,
+        headerImagePath: header_image_path,
+        content: convertedContent,
+      };
+    },
+  ]
+};
+
 export const getProject = async (slug: string) => {
   try {
-    const project: AxiosResponse<IProjectItem | Error> = await axios.get(`/api/projects/${slug}`);
+    const project: AxiosResponse<StateProjectItem | Error> = await axios.get(
+      `/api/projects/${slug}`,
+      getProjectConfig,
+    );
     return project;
   } catch (e) {
     console.log('More not happy');

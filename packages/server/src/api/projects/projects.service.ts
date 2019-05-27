@@ -4,7 +4,7 @@ import { Injectable, Inject } from '@nestjs/common';
 import {
   IProjectIndexItem,
   pickProjectIndexItem,
-  IProjectItem,
+  APIProjectItem,
   pickProjectItem,
 } from '@gilly/common';
 import { projectsToken } from './projects.provider';
@@ -24,7 +24,7 @@ export class ProjectsService {
     ));
   }
 
-  async find(slug: string): Promise<IProjectItem | Error> {
+  async find(slug: string): Promise<APIProjectItem | Error> {
     const projectDoc = await this.projectModel.findOne({ slug }).exec();
     if (!!projectDoc) {
       return pickProjectItem(projectDoc);
