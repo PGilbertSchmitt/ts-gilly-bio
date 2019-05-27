@@ -1,5 +1,5 @@
 import markdownIt from 'markdown-it';
-import { Token, TokenType } from './token';
+import { Token } from './token';
 import BaseParser from './base_parser';
 
 // I'm treating it more as a lexer, as I'll do the more intricate parsing while building the AST.

@@ -78,9 +78,7 @@ export interface Fence {
   value: string;
 }
 
-export interface ListItem {
-  parts: Paragraph[];
-}
+export type ListItem = Array<Paragraph | BulletList | OrderedList>;
 
 export interface OrderedList {
   type: BaseTypes.orderedList;

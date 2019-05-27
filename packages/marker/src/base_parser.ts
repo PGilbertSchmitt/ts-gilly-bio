@@ -101,10 +101,19 @@ export default class BaseParser extends Parser {
   private parseListItem = (): ListItem => {
     this.step();
 
-    const parts: Paragraph[] = [];
-    while (this.curToken().type === TT.paragraph_open) {
-      const paragraph = this.parseParagraph() as Paragraph;
-      parts.push(paragraph);
+    const parts: ListItem = [];
+    while (this.curToken().type !== TT.list_item_close) {
+      switch (this.curToken().type) {
+        case TT.paragraph_open:
+          parts.push(this.parseParagraph());
+          break;
+        case TT.bullet_list_open:
+          parts.push(this.parseBulletList());
+          break;
+        case TT.ordered_list_open:
+          parts.push(this.parseOrderedList());
+          break;
+      }
     }
 
     if (this.curToken().type !== TT.list_item_close) {
@@ -112,7 +121,7 @@ export default class BaseParser extends Parser {
     }
     this.step();
 
-    return { parts };
+    return parts;
   }
 
   private parseBulletList = (): BulletList => {
@@ -146,7 +155,6 @@ export default class BaseParser extends Parser {
 
     const body: Row[] = [];
     while (this.curToken().type === TT.tr_open) {
-      console.log('Got one row');
       const row = this.parseRow(TT.td_open);
       body.push(row);
     }
@@ -240,7 +248,6 @@ export default class BaseParser extends Parser {
 
     this.doc = [];
 
-    console.log('heyhey');
     while (this.stillParsing()) {
       const curType = this.curToken().type;
       this.doc.push(this.getBaseNodeParser(curType)());

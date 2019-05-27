@@ -72,6 +72,21 @@ This *paragraph has **nested** styles*
 * Another item
 * Yet another item
 
++ A list
+  + That is
+    + Nested
+  + Which
+  + Is
++ Interesting
+
+1. You can
+  + even
+    1. nest
+    2. with
+  + mixed
+  + list
+2. types
+
 | Tables        |      Are      |   Cool |
 | :------------ | :-----------: | -----: |
 | *col 3 is*    | right-aligned |  $1600 |
