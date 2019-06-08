@@ -21,7 +21,7 @@ const Marked: FC<OwnProps> = ({ customClass, src }) => {
     <div className={`marked ${customClass}`}>
       {
         src.map((node, key) => (
-          baseNodeToComponent({ node, customClass, key })
+          baseNodeToComponent(node, key)
         ))
       }
     </div>
