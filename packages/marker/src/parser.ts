@@ -2,7 +2,6 @@ import { Token, TokenType } from './token';
 import {
   SubNode,
   BaseNode,
-  Invalid,
 } from './ast';
 
 export type SNP = () => SubNode;
@@ -41,9 +40,4 @@ export default abstract class Parser {
   }
 
   protected stillParsing = () => this.curPos < this.tokens.length;
-
-  /* This won't be injected into the doc, it's only used to type the default case for the parser
-   * selectors. This is only returned in two places, and a call to Parser#error precedes it, so
-   * the parser will raise an exception first */
-  protected invalidParser: (SNP & BNP) = () => Invalid;
 }

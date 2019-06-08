@@ -151,8 +151,7 @@ export default class SubParser extends Parser {
       case TT.image:
         return this.parseImage;
       default:
-        this.error(`No parser for tokentype ${tokenType}`);
-        return this.invalidParser;
+        throw new Error(`No such parser for tokenType ${tokenType}`);
     }
   }
 

@@ -236,8 +236,7 @@ export default class BaseParser extends Parser {
       case TT.blockquote_open:
         return this.parseBlockquote;
       default:
-        this.error(`No parser for tokentype ${tokenType}`);
-        return this.invalidParser;
+        throw new Error(`No such parser for tokenType ${tokenType}`);
     }
   }
 

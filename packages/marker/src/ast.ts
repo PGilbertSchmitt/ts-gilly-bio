@@ -23,11 +23,6 @@ export enum SubTypes {
   softbreak = 'softbreak',
 }
 
-// Invalid type helps with the parser typing
-export const Invalid = {
-  type: 'Invalid',
-};
-
 export type BaseNode
   = Paragraph
   | Heading
@@ -36,8 +31,7 @@ export type BaseNode
   | OrderedList
   | BulletList
   | Blockquote
-  | Table
-  | typeof Invalid;
+  | Table;
 
 export type SubNode
   = Text
@@ -48,8 +42,7 @@ export type SubNode
   | CodeInline
   | Image
   | HardBreak
-  | SoftBreak
-  | typeof Invalid;
+  | SoftBreak;
 
 export type InlineSection = SubNode[];
 
