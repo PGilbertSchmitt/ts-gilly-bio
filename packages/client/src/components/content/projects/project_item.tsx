@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 import has from 'ramda/es/has';
 
+import Marked from '@comp/content/marked/marked';
 import { StateProjectItem } from '@gilly/common';
 import { fetchProject } from '@actions/project_actions';
 import { RootState } from '@reducers/_root_reducer';
@@ -47,10 +48,7 @@ const ProjectItem: FC<Props> = (props) => {
   }
 
   return (
-    <div>
-      <h1>{project.title}</h1>
-      <p>{JSON.stringify(project.content)}</p>
-    </div>
+    <Marked customClass='project-page' src={project.content} />
   );
 };
 
