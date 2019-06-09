@@ -69,6 +69,7 @@ export interface HorizontalRow {
 export interface Fence {
   type: BaseTypes.fence;
   value: string;
+  lang: string;
 }
 
 export type ListItem = Array<Paragraph | BulletList | OrderedList>;

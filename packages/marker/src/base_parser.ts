@@ -73,11 +73,12 @@ export default class BaseParser extends Parser {
   }
 
   private parseFence: BNP = (): Fence => {
-    const { content } = this.curToken();
+    const { content, info } = this.curToken();
     this.step();
     return {
       type: BaseTypes.fence,
       value: content,
+      lang: info,
     };
   }
 

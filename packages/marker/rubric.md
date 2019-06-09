@@ -29,6 +29,11 @@ with a hardbreak with two spaces
 
 This is a text with an *italic style*, a **bold style**, a ~~strikethrough~~, and `inlined code`.
 
+```
+// This code block has no language
+// That means it's generic and unstyled
+```
+
 ```javascript
 const x = 'This is a code block';
 const y = 'Hello mom!';
