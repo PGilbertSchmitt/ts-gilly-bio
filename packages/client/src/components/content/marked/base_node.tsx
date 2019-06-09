@@ -6,6 +6,7 @@ import {
 
 import Header from './header';
 import Paragraph from './paragraph';
+import Fence from './fence';
 
 // Should only return the FC<BaseNodeProps> type when complete
 export const baseNodeToComponent = (
@@ -17,7 +18,8 @@ export const baseNodeToComponent = (
       return <Header node={node} key={key} />;
     case BaseTypes.paragraph:
       return <Paragraph node={node} key={key} />;
-    // case BaseTypes.fence:
+    case BaseTypes.fence:
+      return <Fence node={node} key={key} />;
     // case BaseTypes.blockquote:
     // case BaseTypes.bulletList:
     // case BaseTypes.orderedList:

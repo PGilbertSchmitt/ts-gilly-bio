@@ -118,14 +118,36 @@ with a hardbreak with two spaces
 
 This is a text with an *italic style*, a **bold style**, a ~~strikethrough~~, and \`inlined code\`.
 
+\`\`\`
+// This code block has no language
+// That means it's generic and unstyled
+\`\`\`
+
 \`\`\`javascript
 const x = 'This is a code block';
 const y = 'Hello mom!';
 \`\`\`
 
-This is an [inline link](https://www.example.com)
+\`\`\`ruby
+# Something more complicated to ensure formatting stays consistent
+def fib(places)
 
-This is an [inline link](https://www.example.com "With a title")
+     a = 0
+     b = 1
+
+     while a < places do
+          puts a + "\\n"
+          a = b
+          b = a + b
+     end
+end
+
+puts fib(1000)
+\`\`\`
+
+This is an [inline link](www.example.com)
+
+This is an [inline link](www.example.com "With a title")
 
 This is a [reference link][reference text]
 
@@ -133,8 +155,8 @@ This is an [internal reference link](./src/ast.ts)
 
 This is a [reference link] using its own text as a reference
 
-[reference text]: https://www.example.com
-[reference link]: https://www.example.com
+[reference text]: www.example.com
+[reference link]: www.example.com
 
 ![first alt text](https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Mumbai_Train.JPG/1280px-Mumbai_Train.JPG "First title text")
 
@@ -144,10 +166,10 @@ This is a [reference link] using its own text as a reference
 
 This *paragraph has **nested** styles*
 
-[This link has a **style** inside it](https://www.example.com)
+[This link has a **style** inside it](www.example.com)
 
 
-This paragraph has a ~~[**bold link**](https://www.example.com)~~ with a line through it
+This paragraph has a ~~[**bold link**](www.example.com)~~ with a line through it
 
 1. First item 
    With more
