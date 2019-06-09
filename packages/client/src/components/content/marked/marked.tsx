@@ -4,7 +4,7 @@ import {
   MarkdownDoc,
 } from '@gilly/marker/dist/ast';
 
-import { baseNodeToComponent } from './base_nodes/_base_node';
+import { baseNodeToComponent } from './base_node';
 
 /* Presentational component for rendering Markdown converted into json by @gilly/marker package */
 
