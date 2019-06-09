@@ -1,7 +1,7 @@
-import { IProject } from '../src/interfaces/project';
+import { APIProject } from '@gilly/common/dist/interfaces/projects';
 import * as markdown from './project_markdown';
 
-export const projects: IProject[] = [
+export const projects: APIProject[] = [
   {
     title: 'Gogol',
     desc: 'Configurable Game of Life',
@@ -38,5 +38,15 @@ export const projects: IProject[] = [
       },
     ],
     content: markdown.orgmode,
+  },
+  {
+    title: 'Markdown Rubric',
+    desc: 'A rubric for all markdown components I\'ve supported in my marker library',
+    slug: 'rubric',
+    stack: ['TypeScript', 'Markdown'],
+    thumbnail_path: '',
+    header_image_path: '',
+    urls: [],
+    content: markdown.rubric,
   },
 ];
