@@ -7,6 +7,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 
 import Main from '@comp/core/main';
 import Header from '@comp/nav/header';
+import { store } from '@src/store/root_state';
 
 // This just ensures the global body style is recognized by the compiler
 import { underlined } from '@styles/_layout.scss';
@@ -19,13 +20,7 @@ const jss = create({
 });
 
 export interface AppProps {
-  hooks: {
-    [hook: string]: () => void;
-  };
-  store: {
-    [item: string]: any;
-  };
-  refresh: () => void;
+  store: typeof store;
 }
 
 const Root: FC<AppProps> = ({ children, ...rest }) => (

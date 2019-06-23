@@ -4,7 +4,8 @@
 I wanted to rebuild my portfolio site, so sue me
 
 ### Important technologies used:
-- React/Redux/Saga (Overkill? You betcha!)
+- React/~~Redux/Saga~~
+  - Thanks to some advice from John Haugeland, I've removed my dependencies on Redux, and now I feel free as a bird 
 - NestJS (Because ExpressJS is so blasé)
 - Docker (Yeah? And?)
 - TypeScript (They say it allows you to peer into the hearts of mortal men)
