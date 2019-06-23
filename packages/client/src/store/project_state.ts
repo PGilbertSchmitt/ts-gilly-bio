@@ -24,33 +24,33 @@ export const createProjectStore = () => {
 
   const projectStore = { projectIndex, projects };
 
+  const fetchProjects = async () => {
+    const index = await getProjectIndex();
+    if (index !== null) {
+      projectStore.projectIndex = index.data;
+    }
+  };
+
+  const fetchProject = async (slug: string) => {
+    const projectResponse = await getProject(slug);
+    if (projectResponse !== null) {
+      const responseObj = projectResponse.data;
+      if ('title' in responseObj) {
+        // Converting content string into marked object
+        projectStore.projects[slug] = merge(
+          responseObj,
+          { content: parseMarkdown(responseObj.content) }
+        );
+      } else {
+        // Must mean an error
+        projectStore.projects[slug] = null;
+        hooks.pushError(`No such project page: ${slug}`);
+      }
+    }
+  };
+
   return {
     projectStore,
-    projectHooks: {
-      fetchProjects: async () => {
-        const index = await getProjectIndex();
-        if (index !== null) {
-          projectStore.projectIndex = index.data;
-        }
-      },
-
-      fetchProject: async (slug: string) => {
-        const projectResponse = await getProject(slug);
-        if (projectResponse !== null) {
-          const responseObj = projectResponse.data;
-          if ('title' in responseObj) {
-            // Converting content string into marked object
-            projectStore.projects[slug] = merge(
-              responseObj,
-              { content: parseMarkdown(responseObj.content) }
-            );
-          } else {
-            // Must mean an error
-            projectStore.projects[slug] = null;
-            hooks.pushError(`No such project page: ${slug}`);
-          }
-        }
-      },
-    },
+    projectHooks: { fetchProjects, fetchProject },
   };
 };
