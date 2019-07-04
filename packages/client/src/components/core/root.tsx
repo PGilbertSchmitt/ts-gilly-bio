@@ -1,5 +1,4 @@
 import React, { FunctionComponent as FC } from 'react';
-import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import JssProvider from 'react-jss/lib/JssProvider';
 import { create } from 'jss';
@@ -8,7 +7,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 
 import Main from '@comp/core/main';
 import Header from '@comp/nav/header';
-import store from '@util/store';
+import { store } from '@src/store/root_state';
 
 // This just ensures the global body style is recognized by the compiler
 import { underlined } from '@styles/_layout.scss';
@@ -20,20 +19,19 @@ const jss = create({
   insertionPoint: 'jss-insertion-point',
 });
 
-const Root: FC = () => (
+export interface AppProps {
+  store: typeof store;
+}
+
+const Root: FC<AppProps> = ({ children, ...rest }) => (
   <JssProvider jss={jss} generateClassName={generateClassName}>
     <CssBaseline>
-      <Provider store={store}>
-        <Router>
-          <Header />
-          <Main />
-        </Router>
-      </Provider>
+      <Router>
+        <Header />
+        <Main {...rest} />
+      </Router>
     </CssBaseline>
   </JssProvider >
 );
-
-// TODO: DELETE
-(window as any).store = store;
 
 export default Root;

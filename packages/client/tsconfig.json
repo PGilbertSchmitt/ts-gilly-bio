@@ -16,12 +16,6 @@
       "@styles/*": [
         "./src/styles/*",
       ],
-      "@actions/*": [
-        "./src/actions/*",
-      ],
-      "@reducers/*": [
-        "./src/reducers/*",
-      ],
       "@api/*": [
         "./src/api/*",
       ],
@@ -30,9 +24,6 @@
       ],
       "@util/*": [
         "./src/util/*",
-      ],
-      "@sagas/*": [
-        "./src/sagas/*",
       ],
       "@assets/*": [
         "./src/components/assets/*",

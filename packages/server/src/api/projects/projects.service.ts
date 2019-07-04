@@ -2,7 +2,7 @@ import { Model } from 'mongoose';
 import { Injectable, Inject } from '@nestjs/common';
 
 import {
-  IProjectIndexItem,
+  APIProjectIndexItem,
   pickProjectIndexItem,
   APIProjectItem,
   pickProjectItem,
@@ -17,7 +17,7 @@ export class ProjectsService {
     @Inject(projectsToken) private readonly projectModel: Model<IProjectDoc>,
   ) { }
 
-  async findAll(): Promise<IProjectIndexItem[]> {
+  async findAll(): Promise<APIProjectIndexItem[]> {
     const projectDocs = await this.projectModel.find().exec();
     return projectDocs.map((doc) => (
       pickProjectIndexItem(doc)

@@ -27,8 +27,12 @@ const indexKeys = stringLiteralArray([
   'thumbnail_path',
 ]);
 
-export type IProjectIndexItem = Pick<APIProject, typeof indexKeys[number]>;
+export type APIProjectIndexItem = Pick<APIProject, typeof indexKeys[number]>;
+export type StateProjectIndexItem = APIProjectIndexItem;
 export const pickProjectIndexItem = (proj: APIProject) => pick(proj, indexKeys);
+
+// The project item can switch between the datatype of the content, so I'm using
+// more than just a pick type.
 
 const slugKeys = stringLiteralArray([
   'title',
@@ -38,13 +42,21 @@ const slugKeys = stringLiteralArray([
   'content',
 ]);
 
-export type APIProjectItem = Pick<APIProject, typeof slugKeys[number]>;
-export const pickProjectItem = (proj: APIProject) => pick(proj, slugKeys);
-
-export interface StateProjectItem {
+interface BaseProjectItem {
   readonly title: string;
   readonly stack: string[];
   readonly urls: IProjectUrl[];
-  readonly headerImagePath: string;
+  readonly header_image_path: string;
+}
+
+export interface APIProjectItem extends BaseProjectItem {
+  readonly content: string;
+}
+
+export interface StateProjectItem extends BaseProjectItem {
   readonly content: MarkdownDoc;
 }
+
+export const pickProjectItem = (proj: APIProject) => (
+  pick(proj, slugKeys) as APIProjectItem
+);

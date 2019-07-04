@@ -1,31 +1,27 @@
 import React, { FunctionComponent as FC, useState, useEffect } from 'react';
-import { Dispatch } from 'redux';
-import { connect } from 'react-redux';
 import isEmpty from 'ramda/src/isEmpty';
 
 import RepoItem from '@comp/content/github_widget/repo_item';
-import { fetchGithubRepos } from '@actions/github_actions';
 import { IRepo } from '@res/github_repo_response';
-import { RootState } from '@reducers/_root_reducer';
+import { ICommit } from '@res/github_commit_response';
+import { githubHooks } from '@src/store/root_state';
+import { refresh } from '@src/util/render_state';
 
 import styles from '@styles/github.scss';
 
-interface DispatchProps {
-  loadRepos: () => void;
-}
-
-interface StateProps {
+interface GithubViewProps {
   repos: IRepo[];
+  allCommits: {
+    [reponame: string]: ICommit[];
+  };
 }
 
-type Props = DispatchProps & StateProps;
-
-const GithubView: FC<Props> = ({ loadRepos, repos }) => {
+const GithubView: FC<GithubViewProps> = ({ repos, allCommits }) => {
   const [currentRepo, setCurrentRepo] = useState('');
 
   useEffect(() => {
     if (isEmpty(repos)) {
-      loadRepos();
+      githubHooks.fetchGithubRepos().then(refresh);
     } else {
       setCurrentRepo(repos[0].full_name);
     }
@@ -43,6 +39,7 @@ const GithubView: FC<Props> = ({ loadRepos, repos }) => {
         repos.map((repo) => (
           <RepoItem
             repo={repo}
+            commits={allCommits[repo.full_name]}
             open={repo.full_name === currentRepo}
             onOpen={() => setCurrentRepo(repo.full_name)}
             key={repo.full_name}
@@ -53,15 +50,4 @@ const GithubView: FC<Props> = ({ loadRepos, repos }) => {
   );
 };
 
-const mapStateToProps = (state: RootState): StateProps => ({
-  repos: state.repos,
-});
-
-const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
-  loadRepos: () => dispatch(fetchGithubRepos()),
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(GithubView);
+export default GithubView;
