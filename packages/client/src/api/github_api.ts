@@ -53,6 +53,7 @@ export const getRepos = async () => {
   } catch (e) {
     console.log('Bad stuff!');
     console.log(e);
+    return null;
   }
 };
 
@@ -92,5 +93,6 @@ export const getCommits = async (repo: string) => {
   } catch (e) {
     console.log('More bad stuff!');
     console.group(e);
+    return null;
   }
 };

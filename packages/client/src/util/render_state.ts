@@ -6,8 +6,8 @@ const renderState = {
   dirty: true,
 };
 
-export const invalidate = () => renderState.dirty = true;
+export const refresh = () => renderState.dirty = true;
 export default renderState;
 
 // DELETE
-(window as any).tick = invalidate;
+(window as any).tick = refresh;

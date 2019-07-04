@@ -12,7 +12,7 @@ import {
 
 import { parseMarkdown } from '@gilly/marker';
 
-import { hooks } from './root_state';
+import { errorHooks } from './root_state';
 
 export interface ProjectItemList {
   [slug: string]: StateProjectItem | null;
@@ -44,7 +44,7 @@ export const createProjectStore = () => {
       } else {
         // Must mean an error
         projectStore.projects[slug] = null;
-        hooks.pushError(`No such project page: ${slug}`);
+        errorHooks.pushError(`No such project page: ${slug}`);
       }
     }
   };
@@ -54,3 +54,5 @@ export const createProjectStore = () => {
     projectHooks: { fetchProjects, fetchProject },
   };
 };
+
+// 120 lines to 56, wow!

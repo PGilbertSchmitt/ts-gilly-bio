@@ -4,20 +4,20 @@ import { Route, match as matchType, Redirect } from 'react-router-dom';
 import ProjectIndex from './project_index';
 import ProjectItem from './project_item';
 
-import { hooks, store } from '@src/store/root_state';
+import { projectHooks, store } from '@src/store/root_state';
+import { refresh } from '@util/render_state';
 
 interface ProjectProps {
   match: matchType<{ slug: string; }>;
   projectIndex: typeof store.projectStore.projectIndex;
   projects: typeof store.projectStore.projects;
-  refresh: () => void;
 }
 
-const ProjectPage: FC<ProjectProps> = ({ match, projects, projectIndex, refresh }) => (
+const ProjectPage: FC<ProjectProps> = ({ match, projects, projectIndex }) => (
   <>
     <Route exact path={`${match.path}`} render={() => {
       if (projectIndex.length === 0) {
-        hooks.fetchProjects().then(refresh);
+        projectHooks.fetchProjects().then(refresh);
       }
       return (
         <ProjectIndex index={projectIndex} />
@@ -32,7 +32,7 @@ const ProjectPage: FC<ProjectProps> = ({ match, projects, projectIndex, refresh 
       }
 
       if (project === undefined) {
-        hooks.fetchProject(slug).then(refresh);
+        projectHooks.fetchProject(slug).then(refresh);
       }
       return (
         <ProjectItem project={project} />

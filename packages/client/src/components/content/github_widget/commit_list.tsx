@@ -1,34 +1,23 @@
 import React, { FunctionComponent as FC, useEffect } from 'react';
-import { Dispatch } from 'redux';
-import { connect } from 'react-redux';
 import List from '@material-ui/core/List';
 
 import CommitItem from '@comp/content/github_widget/commit_item';
-import { fetchGithubCommits } from '@actions/github_actions';
 import { ICommit } from '@res/github_commit_response';
-import { RootState } from '@reducers/_root_reducer';
+import { githubHooks } from '@src/store/root_state';
 
 import styles from '@styles/github.scss';
+import { refresh } from '@src/util/render_state';
 
-interface DispatchProps {
-  loadCommits: (repoName: string) => void;
-}
-
-interface StateProps {
+interface CommitListProps {
   commits: undefined | ICommit[];
-}
-
-interface OwnProps {
   repo: string;
   open: boolean;
 }
 
-type Props = DispatchProps & StateProps & OwnProps;
-
-const CommitList: FC<Props> = ({ loadCommits, commits, repo, open }) => {
+const CommitList: FC<CommitListProps> = ({ commits, repo, open }) => {
   useEffect(() => {
     if (!commits && open) {
-      loadCommits(repo);
+      githubHooks.fetchGithubCommits(repo).then(refresh);
     }
   }, [commits, open]);
 
@@ -47,12 +36,4 @@ const CommitList: FC<Props> = ({ loadCommits, commits, repo, open }) => {
   );
 };
 
-const mapStateToProps = (state: RootState, ownProps: OwnProps): StateProps => ({
-  commits: state.commits[ownProps.repo],
-});
-
-const mapDispatchToProps = (dispatch: Dispatch): DispatchProps => ({
-  loadCommits: (repoName: string) => dispatch(fetchGithubCommits(repoName)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(CommitList);
+export default CommitList;
