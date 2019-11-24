@@ -3,6 +3,6 @@ node_modules/
 yarn-error.log
 lerna-debug.log
 
-db.config.json
+db.env
 packages/*/dist/
 packages/server/public/dist/

@@ -1,0 +1,46 @@
+# FROM node:8.15.1-jessie
+FROM node:alpine
+
+RUN apk add --no-cache --virtual .gyp \
+  git                                 \
+  python2                             \
+  py-pip                              \
+  python-dev                          \
+  libffi-dev                          \
+  openssl-dev                         \
+  g++                                 \
+  gcc                                 \
+  libc-dev                            \
+  make
+
+ENV workdir /home/bio
+ENV NODE_ENV=development
+WORKDIR $workdir
+
+# Dependencies
+
+COPY package.json ${workdir}/
+COPY yarn.lock ${workdir}/
+COPY lerna.json ${workdir}/
+
+COPY packages/server/package.json ${workdir}/packages/server/
+
+COPY packages/client/package.json ${workdir}/packages/client/
+
+RUN yarn install
+RUN yarn run lerna bootstrap 
+
+# Build
+
+COPY . ${workdir}
+RUN cd packages/client && yarn build:once
+# RUN cp packages/client/dist/bundle.js packages/server/public/bundle.js
+
+# Cleanup
+
+RUN apk del .gyp
+
+# Run
+
+WORKDIR ${workdir}/packages/server
+CMD ["yarn", "docker:start"]

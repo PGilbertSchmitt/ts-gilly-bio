@@ -1,0 +1,6 @@
+FROM mongo:latest
+
+COPY docker/create-app-user.sh /docker-entrypoint-initdb.d/
+
+RUN echo "Running mongod"
+CMD [ "mongod", "-v", "--dbpath=/data/db", "--bind_ip_all" ]

@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import config from './db.config.json';
+import config from '@src/dbConfig';
 
 import { ProjectSchema } from '@src/api/projects/projects.schema';
 import { projects } from './seeds/projects';
@@ -8,12 +8,12 @@ import { projects } from './seeds/projects';
   console.log('Connecting...');
 
   try {
-    await mongoose.connect(`${config.host}/${config.database}`, {
-      // user: config.username,
-      // pass: config.password,
-
+    await mongoose.connect(`${config.HOST}/${config.DATABASE}`, {
+      authSource: 'admin',
       useNewUrlParser: true,
       useCreateIndex: true,
+      user: config.ROOT_USER,
+      pass: config.ROOT_PASS,
     });
   } catch (e) {
     console.log(e);
@@ -25,16 +25,14 @@ import { projects } from './seeds/projects';
   const projectModel = mongoose.model('Project', ProjectSchema);
 
   console.log('Deleting projects...');
-
   await projectModel.deleteMany({}).exec();
+  console.log('Projects deleted');
 
-  console.log('Projects deleted, reseeding...');
-
+  console.log('Reseeding projects...');
   for (const proj of projects) {
     await projectModel.create(proj);
     console.log('Seeded project ' + proj.title);
   }
-
   console.log('Projects reseeded');
 
   mongoose.disconnect();
