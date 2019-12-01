@@ -96,25 +96,27 @@ This paragraph has a ~~[**bold link**](www.example.com)~~ with a line through it
 * Yet another item
 
 + A list
-  + That is
-    + Nested
-  + Which
-  + Is
+   + That is
+      + Nested
+   + Which
+   + Is
 + Interesting
 
 1. You can
-  + even
-    1. nest
-    2. with
-  + mixed
-  + list
+   + even
+      1. nest
+      2. with
+   + mixed
+   + list
 2. types
 
 | Tables        |      Are      |   Cool |
-| :------------ | :-----------: | -----: |
+|:--------------|:-------------:|-------:|
 | *col 3 is*    | right-aligned |  $1600 |
 | col 2 is      | **centered**  |    $12 |
 | zebra stripes |   are neat    | ~~$1~~ |
+
+---
 
 > This is a block quote with **internal styles**.
 
