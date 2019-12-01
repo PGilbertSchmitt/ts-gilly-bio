@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
-import config from '@src/dbConfig';
+import config from './src/dbConfig';
 
-import { ProjectSchema } from '@src/api/projects/projects.schema';
+import { ProjectSchema } from './src/api/projects/projects.schema';
 import { projects } from './seeds/projects';
 
 (async () => {
@@ -9,11 +9,11 @@ import { projects } from './seeds/projects';
 
   try {
     await mongoose.connect(`${config.HOST}/${config.DATABASE}`, {
-      authSource: 'admin',
+      authSource: config.DATABASE,
       useNewUrlParser: true,
       useCreateIndex: true,
-      user: config.ROOT_USER,
-      pass: config.ROOT_PASS,
+      user: config.APP_USER,
+      pass: config.APP_PASS,
     });
   } catch (e) {
     console.log(e);

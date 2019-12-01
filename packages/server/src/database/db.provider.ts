@@ -8,6 +8,7 @@ export const dbProviders = [
     provide: dbToken,
     useFactory: async (): Promise<typeof mongoose> => (
       await connect(`${config.HOST}/${config.DATABASE}`, {
+        authSource: config.DATABASE,
         user: config.APP_USER,
         pass: config.APP_PASS,
 
